@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     private Context context;
     private int duration = Toast.LENGTH_SHORT;
 
-    //PLUMBING: Pairing GUI controls with Java objects
     private Button btnExit;
     private EditText txtColorSelected;
     private TextView txtSpyBox;
@@ -34,12 +32,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         txtColorSelected = (EditText) findViewById(R.id.editText1);
         btnExit = (Button) findViewById(R.id.button1);
         txtSpyBox = (TextView) findViewById(R.id.textView1);
         myScreen = (LinearLayout) findViewById(R.id.myScreen1);
-
 
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,10 +44,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //observe (text) changes made to EditText box (color selection)
         txtColorSelected.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) { // nothing TODO, needed by interface
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
 
             @Override
@@ -67,10 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-
         context = getApplicationContext();
         Toast.makeText(context, "onCreate", duration).show();
-
     }
 
     @Override
@@ -112,16 +105,15 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(context, "onRestart", duration).show();
     }
 
-    private void setBackgroundColor(String chosenColor, LinearLayout myScreen) { //hex color codes: 0xAARRGGBB AA:transp, RR red, GG green, BB blue
-        if (chosenColor.contains("red")) myScreen.setBackgroundColor(0xffff0000); //Color.RED
-        if (chosenColor.contains("green")) myScreen.setBackgroundColor(0xff00ff00); //Color.GREEN
-        if (chosenColor.contains("blue")) myScreen.setBackgroundColor(0xff0000ff); //Color.BLUE
-        if (chosenColor.contains("white")) myScreen.setBackgroundColor(0xffffffff); //Color.WHITE
+    private void setBackgroundColor(String chosenColor, LinearLayout myScreen) {
+        if (chosenColor.contains("red")) myScreen.setBackgroundColor(0xffff0000);
+        if (chosenColor.contains("green")) myScreen.setBackgroundColor(0xff00ff00);
+        if (chosenColor.contains("blue")) myScreen.setBackgroundColor(0xff0000ff);
+        if (chosenColor.contains("white")) myScreen.setBackgroundColor(0xffffffff);
     }
 
     private void saveStateData(String chosenColor) {
-        SharedPreferences myPrefContainer = getSharedPreferences(PREFNAME,
-                Activity.MODE_PRIVATE); //pair <key,value> to be stored represents our 'important' data
+        SharedPreferences myPrefContainer = getSharedPreferences(PREFNAME, Activity.MODE_PRIVATE);
         SharedPreferences.Editor myPrefEditor = myPrefContainer.edit();
         String key = "chosenBackgroundColor";
         String value = txtSpyBox.getText().toString();
@@ -130,8 +122,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateMeUsingSavedStateData() {
-        SharedPreferences myPrefContainer =
-                getSharedPreferences(PREFNAME, Activity.MODE_PRIVATE);
+        SharedPreferences myPrefContainer = getSharedPreferences(PREFNAME, Activity.MODE_PRIVATE);
         String key = "chosenBackgroundColor";
         String defaultValue = "white";
         if ((myPrefContainer != null) && myPrefContainer.contains(key)) {
