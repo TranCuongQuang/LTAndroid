@@ -10,141 +10,35 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 public class MainActivity extends Activity {
 
-//    private Context context;
-//    private int duration = Toast.LENGTH_SHORT;
-//
-//    private Button btnExit;
-//    private EditText txtColorSelected;
-//    private TextView txtSpyBox;
-//    private LinearLayout myScreen;
-//    private String PREFNAME = "myPrefFile1";
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//
-//        txtColorSelected = (EditText) findViewById(R.id.editText1);
-//        btnExit = (Button) findViewById(R.id.button1);
-//        txtSpyBox = (TextView) findViewById(R.id.textView1);
-//        myScreen = (LinearLayout) findViewById(R.id.myScreen1);
-//
-//        btnExit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
-//
-//        txtColorSelected.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//            }
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                String chosenColor = s.toString().toLowerCase(Locale.US);
-//                txtSpyBox.setText(chosenColor);
-//                setBackgroundColor(chosenColor, myScreen);
-//            }
-//
-//        });
-//
-//        context = getApplicationContext();
-//        Toast.makeText(context, "onCreate", duration).show();
-//    }
-//
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        updateMeUsingSavedStateData();
-//        Toast.makeText(context, "onStart", duration).show();
-//    }
-//
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        String chosenColor = txtSpyBox.getText().toString();
-//        saveStateData(chosenColor);
-//        Toast.makeText(context, "onPause", duration).show();
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        Toast.makeText(context, "onResume", duration).show();
-//    }
-//
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        Toast.makeText(context, "onStop", duration).show();
-//    }
-//
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        Toast.makeText(context, "onDestroy", duration).show();
-//    }
-//
-//    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-//        Toast.makeText(context, "onRestart", duration).show();
-//    }
-//
-//    private void setBackgroundColor(String chosenColor, LinearLayout myScreen) {
-//        if (chosenColor.contains("red")) myScreen.setBackgroundColor(0xffff0000);
-//        if (chosenColor.contains("green")) myScreen.setBackgroundColor(0xff00ff00);
-//        if (chosenColor.contains("blue")) myScreen.setBackgroundColor(0xff0000ff);
-//        if (chosenColor.contains("white")) myScreen.setBackgroundColor(0xffffffff);
-//    }
-//
-//    private void saveStateData(String chosenColor) {
-//        SharedPreferences myPrefContainer = getSharedPreferences(PREFNAME, Activity.MODE_PRIVATE);
-//        SharedPreferences.Editor myPrefEditor = myPrefContainer.edit();
-//        String key = "chosenBackgroundColor";
-//        String value = txtSpyBox.getText().toString();
-//        myPrefEditor.putString(key, value);
-//        myPrefEditor.commit();
-//    }
-//
-//    private void updateMeUsingSavedStateData() {
-//        SharedPreferences myPrefContainer = getSharedPreferences(PREFNAME, Activity.MODE_PRIVATE);
-//        String key = "chosenBackgroundColor";
-//        String defaultValue = "white";
-//        if ((myPrefContainer != null) && myPrefContainer.contains(key)) {
-//            String color = myPrefContainer.getString(key, defaultValue);
-//            setBackgroundColor(color, myScreen);
-//        }
-//    }
-
     private Context context;
-    Button btnReset, btnSignup;
+    Button btnReset, btnSignup, btnSelect;
     EditText editUsername, editPassword, editRetype, editBirthday;
     RadioButton rdGenderMale, rdGenderFemale;
     CheckBox checkboxFutsal, checkBoxTennis, checkBoxOther;
     RadioGroup rdgGender;
+    private DatePicker datePicker;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
+        this.datePicker = (DatePicker) this.findViewById(R.id.datePicker);
 
         btnReset = (Button) findViewById(R.id.button2);
         btnSignup = (Button) findViewById(R.id.button3);
+        btnSelect = (Button) findViewById(R.id.buttonSelect);
 
         editUsername = (EditText) findViewById(R.id.editUsername);
         editPassword = (EditText) findViewById(R.id.editPassword);
@@ -186,10 +80,34 @@ public class MainActivity extends Activity {
 
                 if (!editPassword.getText().toString().equals(editRetype.getText().toString())) {
                     Toast.makeText(context, "Password doest not match", Toast.LENGTH_SHORT).show();
-
-                } else {
-                    Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+                    MainActivity.this.finish();
                 }
+
+                String GenderValue = "Male";
+                if (rdGenderFemale.isChecked()) {
+                    GenderValue = "Female";
+                }
+
+                String HobbiesValue = "";
+                if (checkboxFutsal.isChecked()) {
+                    HobbiesValue = HobbiesValue.concat(",Futsal");
+                }
+                if (checkBoxTennis.isChecked()) {
+                    HobbiesValue = HobbiesValue.concat(",Tennis");
+                }
+                if (checkBoxOther.isChecked()) {
+                    HobbiesValue = HobbiesValue.concat(",Others");
+                }
+
+                Bundle myBundle = new Bundle();
+
+                myBundle.putString("username", UsernameValue);
+                myBundle.putString("birthday", BirthdayValue);
+                myBundle.putString("gender", GenderValue);
+                myBundle.putString("hobbies", HobbiesValue);
+
+                intent.putExtras(myBundle);
+                startActivity(intent);
 
 
 
@@ -198,6 +116,39 @@ public class MainActivity extends Activity {
 
         });
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        int year = calendar.get(Calendar.YEAR);
+        int month  = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        this.datePicker.init( year, month , day , new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker datePicker, int year, int month, int dayOfMonth) {
+                datePickerChange(  datePicker,   year,   month,   dayOfMonth);
+            }
+        });
+
+        btnSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDate();
+            }
+        });
+
         context = getApplicationContext();
+    }
+
+    private void datePickerChange(DatePicker datePicker, int year, int month, int dayOfMonth) {
+        Log.d("Date", "Year=" + year + " Month=" + (month + 1) + " day=" + dayOfMonth);
+//        this.editTextDate.setText(dayOfMonth +"-" + (month + 1) + "-" + year);
+    }
+
+    private void showDate()  {
+        int year = this.datePicker.getYear();
+        int month = this.datePicker.getMonth(); // 0 - 11
+        int day = this.datePicker.getDayOfMonth();
+
+        Toast.makeText(this, "Date: " + day+"-"+ (month + 1) +"-"+ year, Toast.LENGTH_LONG).show();
     }
 }
