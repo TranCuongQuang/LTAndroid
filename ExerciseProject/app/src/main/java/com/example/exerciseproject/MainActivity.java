@@ -1,6 +1,9 @@
 package com.example.exerciseproject;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
 import android.app.ListActivity;
@@ -24,47 +27,47 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends FragmentActivity implements MainCallbacks {
 
-    TextView txtMsg;
+//    FragmentTransaction ft;
+    FragmentLeftW5 frmLeft;
+    FragmentRightW5 frmRight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main4);
+        setContentView(R.layout.activity_main5);
+//        ft = getSupportFragmentManager().beginTransaction();
+//        frmLeft = frmLeft.newInstance("first-blue");
+//        ft.replace(R.id.frmLeft, frmLeft);
+//        ft.commit();
+//
+//        ft = getSupportFragmentManager().beginTransaction();
+//        frmRight = FragmentRightW5.newInstance("first-red");
+//        ft.replace(R.id.frmRight, frmRight);
+//        ft.commit();
 
-        txtMsg = (TextView) findViewById(R.id.txtMsg);
-
-        List<Person> personList = getListData();
-        CustomIconLabelAdapter adapter = new CustomIconLabelAdapter(this, R.layout.custom_row, personList);
-        setListAdapter(adapter);
     }
 
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-
-        Object o = l.getItemAtPosition(position);
-        Person person = (Person) o;
-        String text = "You choose: " + person.getName();
-        txtMsg.setText(text);
+    public void onAttachFragment(Fragment fragment) {
+        super.onAttachFragment(fragment);
+        if (fragment.getClass() == FragmentLeftW5.class ){ frmLeft = (FragmentLeftW5) fragment; }
+        if (fragment.getClass() == FragmentRightW5.class ){ frmRight = (FragmentRightW5) fragment; }
     }
 
-    private List<Person> getListData() {
-        List<Person> list = new ArrayList<Person>();
+    @Override
+    public void onMsgFromFragToMain(String sender, Person strValue) {
+//        Toast.makeText(getApplication(), " MAIN GOT>>" + sender + "\n" + strValue, Toast.LENGTH_LONG).show();
+        if (sender.equals("RIGHT-FRAG")) {
 
-        Person p1 = new Person("Nguyễn Văn A", "icon_1", "0968671711");
-        Person p2 = new Person("Nguyễn Văn B", "icon_2", "0968671712");
-        Person p3 = new Person("Nguyễn Văn C", "icon_3", "0968671713");
-        Person p4 = new Person("Nguyễn Văn D", "icon_4", "0968671714");
-        Person p5 = new Person("Nguyễn Văn E", "icon_5", "0968671715");
-
-        list.add(p1);
-        list.add(p2);
-        list.add(p3);
-        list.add(p4);
-        list.add(p5);
-
-        return list;
+        }
+        if (sender.equals("LEFT-FRAG")) {
+            try {
+                frmRight.onMsgFromMainToFragment(sender ,strValue);
+            } catch (Exception e) {
+                Log.e("ERROR", "onStrFromFragToMain" + e.getMessage());
+            }
+        }
     }
 }
