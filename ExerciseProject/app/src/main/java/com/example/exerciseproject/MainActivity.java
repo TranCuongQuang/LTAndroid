@@ -52,15 +52,19 @@ public class MainActivity extends FragmentActivity implements MainCallbacks {
     @Override
     public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
-        if (fragment.getClass() == FragmentLeftW5.class ){ frmLeft = (FragmentLeftW5) fragment; }
-        if (fragment.getClass() == FragmentRightW5.class ){ frmRight = (FragmentRightW5) fragment; }
+        if (fragment.getClass() == FragmentLeftW5.class ){
+            frmLeft = (FragmentLeftW5) fragment;
+        }
+        if (fragment.getClass() == FragmentRightW5.class ){
+            frmRight = (FragmentRightW5) fragment;
+        }
     }
 
     @Override
     public void onMsgFromFragToMain(String sender, Person strValue) {
-//        Toast.makeText(getApplication(), " MAIN GOT>>" + sender + "\n" + strValue, Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplication(), " MAIN GOT>>" + sender + "\n" + strValue.getId(), Toast.LENGTH_LONG).show();
         if (sender.equals("RIGHT-FRAG")) {
-
+            Toast.makeText(getApplication(), " MAIN GOT>>" + sender + "\n" + strValue.getId(), Toast.LENGTH_LONG).show();
         }
         if (sender.equals("LEFT-FRAG")) {
             try {

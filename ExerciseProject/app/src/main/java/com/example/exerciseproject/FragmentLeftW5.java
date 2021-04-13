@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,8 +21,9 @@ import java.util.List;
 public class FragmentLeftW5 extends Fragment {
     MainActivity main;
     Context context = null;
-    String message = "";
-    private String items[] = {"Text-on-Line-00", "Text-on-Line-00", "Text-on-Line-00"};
+    private static int save = -1;
+    //String message = "";
+    //private String items[] = {"Text-on-Line-00", "Text-on-Line-00", "Text-on-Line-00"};
 
     public static FragmentLeftW5 newInstance(String strArg) {
         FragmentLeftW5 fragment = new FragmentLeftW5();
@@ -76,7 +78,17 @@ public class FragmentLeftW5 extends Fragment {
 
 //        listView.setBackgroundColor(Color.parseColor("#ffccddff"));
         listView.setSelection(0);
+//        listView.setSelected(true);
+//        listView.setItemChecked(0, true);
+//        ListAdapter adapter1 = listView.getAdapter();
+//        listView.performItemClick(listView.getChildAt(0), 0, adapter1.getItemId(0));
+//        listView.setSelected(true);
+//        listView.setItemChecked(0, true);
+       // listView.performItemClick(listView.getAdapter().getView(0, listView, null), 0, 0);
+//        listView.performItemClick(listView.getSelectedView(), 0, 0);
+       //
         listView.smoothScrollToPosition(0);
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -87,6 +99,15 @@ public class FragmentLeftW5 extends Fragment {
 
                 txtMsg.setText(text);
                 main.onMsgFromFragToMain("LEFT-FRAG", person);
+
+
+                parent.getChildAt(position).setBackgroundColor(Color.BLUE);
+                if (save != -1 && save != position){
+                    parent.getChildAt(save).setBackgroundColor(Color.WHITE);
+                }
+
+                save = position;
+
             }
         });
         return layout_left;

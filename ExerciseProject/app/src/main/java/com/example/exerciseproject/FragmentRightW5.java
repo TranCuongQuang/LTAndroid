@@ -1,6 +1,7 @@
 package com.example.exerciseproject;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,12 +9,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class FragmentRightW5 extends Fragment implements FragmentCallbacks {
+public class FragmentRightW5 extends Fragment implements FragmentCallbacks, View.OnClickListener {
     MainActivity main;
     TextView txtId;
     TextView txtName;
@@ -24,10 +27,10 @@ public class FragmentRightW5 extends Fragment implements FragmentCallbacks {
     Button btnNext;
     Button btnLast;
 
-    public static FragmentRightW5 newInstance(String strArg1) {
+    public static FragmentRightW5 newInstance(Person strArg1) {
         FragmentRightW5 fragment = new FragmentRightW5();
         Bundle bundle = new Bundle();
-        bundle.putString("arg1", strArg1);
+        bundle.putParcelable("arg1", (Parcelable)strArg1);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -39,7 +42,6 @@ public class FragmentRightW5 extends Fragment implements FragmentCallbacks {
             throw new IllegalStateException("Activity must implement MainCallbacks");
         }
         main = (MainActivity) getActivity();
-
     }
 
     @Override
@@ -65,15 +67,28 @@ public class FragmentRightW5 extends Fragment implements FragmentCallbacks {
 //        }
 
 //        btnClick = (Button) view_layout.findViewById(R.id.btnClick);
-//        btnClick.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
+        btnFirst.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 //                String redMessage = "Red clock:\n" + new Date().toString();
 //                txtId.setText(redMessage);
 //                main.onMsgFromFragToMain("RED-FRAG", redMessage);
-//            }
-//        });
+
+               // Bundle arguments = getArguments();
+               // Person person = (Person) arguments.getParcelable("arg1");
+               // main.onMsgFromFragToMain("RIGHT-FRAG", person);
+            }
+        });
         return view_layout;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == btnFirst.getId()) {
+            Bundle arguments = getArguments();
+            Person person = (Person) arguments.getSerializable("arg1");
+            main.onMsgFromFragToMain("RIGHT-FRAG", person);
+        }
     }
 
     @Override
@@ -82,5 +97,7 @@ public class FragmentRightW5 extends Fragment implements FragmentCallbacks {
         txtName.setText(strValue.getName());
         txtClass.setText(strValue.getClassRoom());
         txtPoint.setText(strValue.getPoint() + "");
+
+//        newInstance(strValue);
     }
 }
