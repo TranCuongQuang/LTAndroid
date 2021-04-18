@@ -75,7 +75,7 @@ public class FragmentLeftW5 extends Fragment {
 
 //        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, items);
         listView.setAdapter(adapter);
-
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 //        listView.setBackgroundColor(Color.parseColor("#ffccddff"));
         listView.setSelection(0);
 //        listView.setSelected(true);
@@ -87,6 +87,10 @@ public class FragmentLeftW5 extends Fragment {
        // listView.performItemClick(listView.getAdapter().getView(0, listView, null), 0, 0);
 //        listView.performItemClick(listView.getSelectedView(), 0, 0);
        //
+        //listView.performItemClick(adapter.getView(0,null,null), 0, adapter.getItemId(0));
+//        listView.performItemClick( listView.getAdapter().getView(0,null,null),0,listView.getAdapter().getItemId(0));
+        listView.getAdapter().getView(1, null, null).performClick();
+
         listView.smoothScrollToPosition(0);
 
 
