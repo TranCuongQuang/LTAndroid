@@ -61,17 +61,27 @@ public class MainActivity extends FragmentActivity implements MainCallbacks {
     }
 
     @Override
-    public void onMsgFromFragToMain(String sender, Person strValue) {
+    public void onMsgFromLeftFragToMain(String sender, Person strValue) {
 //        Toast.makeText(getApplication(), " MAIN GOT>>" + sender + "\n" + strValue.getId(), Toast.LENGTH_LONG).show();
         if (sender.equals("RIGHT-FRAG")) {
             Toast.makeText(getApplication(), " MAIN GOT>>" + sender + "\n" + strValue.getId(), Toast.LENGTH_LONG).show();
         }
         if (sender.equals("LEFT-FRAG")) {
             try {
-                frmRight.onMsgFromMainToFragment(sender ,strValue);
+                frmRight.onMsgFromMainToRightFragment(sender ,strValue);
             } catch (Exception e) {
                 Log.e("ERROR", "onStrFromFragToMain" + e.getMessage());
             }
         }
+    }
+
+    @Override
+    public void onMsgFromRightFragToMain(String sender, String position) {
+//        Toast.makeText(getApplication(), " MAIN GOT>>" + sender + "\n" + strValue.getId(), Toast.LENGTH_LONG).show();
+        if (sender.equals("RIGHT-FRAG")) {
+            Toast.makeText(getApplication(), " MAIN GOT>>" + sender + "\n" + position, Toast.LENGTH_LONG).show();
+            frmLeft.onMsgFromMainToLeftFragment(sender , position);
+        }
+
     }
 }

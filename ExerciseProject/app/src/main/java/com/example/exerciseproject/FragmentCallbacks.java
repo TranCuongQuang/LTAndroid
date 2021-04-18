@@ -1,5 +1,6 @@
 package com.example.exerciseproject;
 
 public interface FragmentCallbacks {
-    public void onMsgFromMainToFragment(String sender, Person strValue);
+    public void onMsgFromMainToLeftFragment(String sender, String position);
+    public void onMsgFromMainToRightFragment(String sender, Person strValue);
 }

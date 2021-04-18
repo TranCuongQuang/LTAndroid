@@ -30,7 +30,7 @@ public class FragmentRightW5 extends Fragment implements FragmentCallbacks, View
     public static FragmentRightW5 newInstance(Person strArg1) {
         FragmentRightW5 fragment = new FragmentRightW5();
         Bundle bundle = new Bundle();
-        bundle.putParcelable("arg1", (Parcelable)strArg1);
+        bundle.putParcelable("arg1", (Parcelable) strArg1);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -47,36 +47,42 @@ public class FragmentRightW5 extends Fragment implements FragmentCallbacks, View
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        LinearLayout view_layout= (LinearLayout) inflater.inflate(R.layout.fragment_right, null);
+        LinearLayout view_layout = (LinearLayout) inflater.inflate(R.layout.fragment_right, null);
         txtId = (TextView) view_layout.findViewById(R.id.txtId);
         txtClass = (TextView) view_layout.findViewById(R.id.txtClass);
         txtName = (TextView) view_layout.findViewById(R.id.txtName);
         txtPoint = (TextView) view_layout.findViewById(R.id.txtPoint);
 
         btnFirst = (Button) view_layout.findViewById(R.id.btnFirst);
-        btnPrevious = (Button) view_layout.findViewById(R.id.btnNext);
+        btnPrevious = (Button) view_layout.findViewById(R.id.btnPrevious);
         btnNext = (Button) view_layout.findViewById(R.id.btnNext);
         btnLast = (Button) view_layout.findViewById(R.id.btnLast);
 
-
-//        try {
-//            Bundle arguments = getArguments();
-//            txtId.setText(arguments.getString("arg1", ""));
-//        } catch (Exception e) {
-//            Log.e("RED BUNDLE ERROR – ", "" + e.getMessage());
-//        }
-
-//        btnClick = (Button) view_layout.findViewById(R.id.btnClick);
         btnFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                String redMessage = "Red clock:\n" + new Date().toString();
-//                txtId.setText(redMessage);
-//                main.onMsgFromFragToMain("RED-FRAG", redMessage);
+                main.onMsgFromRightFragToMain("RIGHT-FRAG", "first");
+            }
+        });
 
-               // Bundle arguments = getArguments();
-               // Person person = (Person) arguments.getParcelable("arg1");
-               // main.onMsgFromFragToMain("RIGHT-FRAG", person);
+        btnLast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                main.onMsgFromRightFragToMain("RIGHT-FRAG", "last");
+            }
+        });
+
+        btnPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                main.onMsgFromRightFragToMain("RIGHT-FRAG", "previous");
+            }
+        });
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                main.onMsgFromRightFragToMain("RIGHT-FRAG", "next");
             }
         });
         return view_layout;
@@ -87,17 +93,20 @@ public class FragmentRightW5 extends Fragment implements FragmentCallbacks, View
         if (v.getId() == btnFirst.getId()) {
             Bundle arguments = getArguments();
             Person person = (Person) arguments.getSerializable("arg1");
-            main.onMsgFromFragToMain("RIGHT-FRAG", person);
+//            main.onMsgFromFragToMain("RIGHT-FRAG", person);
         }
     }
 
     @Override
-    public void onMsgFromMainToFragment(String sender, Person strValue) {
+    public void onMsgFromMainToLeftFragment(String sender, String position) {
+
+    }
+
+    @Override
+    public void onMsgFromMainToRightFragment(String sender, Person strValue) {
         txtId.setText(strValue.getId());
         txtName.setText(strValue.getName());
         txtClass.setText(strValue.getClassRoom());
         txtPoint.setText(strValue.getPoint() + "");
-
-//        newInstance(strValue);
     }
 }

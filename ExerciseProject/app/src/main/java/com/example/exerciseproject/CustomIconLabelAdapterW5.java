@@ -30,16 +30,25 @@ public class CustomIconLabelAdapterW5 extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-
         if (convertView == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             convertView = inflater.inflate(R.layout.custom_row5, null);
+            if(position == 0){
+                // This is the first item, you need to select this
+                convertView.setSelected(true);
+
+            }
             holder = new ViewHolder();
             holder.imgAvatar = (ImageView) convertView.findViewById(R.id.imgAvatar);
             holder.txtId = (TextView) convertView.findViewById(R.id.txtId);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
+            if(position == 0){
+                // This is the first item, you need to select this
+                convertView.setSelected(true);
+
+            }
         }
 
         Person person = this.listData.get(position);
