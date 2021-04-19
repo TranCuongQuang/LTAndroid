@@ -1,20 +1,13 @@
 package com.example.exerciseproject;
 
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.fragment.app.Fragment;
-
-import java.io.Serializable;
-import java.util.Date;
 
 public class FragmentRightW5 extends Fragment implements FragmentCallbacks {
     MainActivity main;
@@ -27,15 +20,11 @@ public class FragmentRightW5 extends Fragment implements FragmentCallbacks {
     Button btnNext;
     Button btnLast;
 
-    private int index = 0;
-    private int len = 4;
-
     public static FragmentRightW5 newInstance(int index) {
         FragmentRightW5 fragment = new FragmentRightW5();
 
         Bundle bundle = new Bundle();
         bundle.putInt("index", index);
-        //bundle.putInt("len", len);
         fragment.setArguments(bundle);
 
         return fragment;
@@ -64,59 +53,42 @@ public class FragmentRightW5 extends Fragment implements FragmentCallbacks {
         btnNext = (Button) view_layout.findViewById(R.id.btnNext);
         btnLast = (Button) view_layout.findViewById(R.id.btnLast);
 
-        try {
-            Bundle arguments = getArguments();
-            index = arguments.getInt("index");
-            len = 4;
-        } catch (Exception e) {
-
-        }
-
 
         btnFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                main.onMsgFromFragToMain("RIGHT-FRAG", null, 0, len);
+                main.onMsgFromFragToMain("RIGHT-FRAG", null, "first");
             }
         });
 
         btnLast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                main.onMsgFromFragToMain("RIGHT-FRAG", null, len, len);
+                main.onMsgFromFragToMain("RIGHT-FRAG", null, "last");
             }
         });
 
         btnPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (index != 0) {
-                    index = index - 1;
-                }
-                main.onMsgFromFragToMain("RIGHT-FRAG", null, index, len);
+                main.onMsgFromFragToMain("RIGHT-FRAG", null, "previous");
             }
         });
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                if (index != len) {
-                    index = index + 1;
-                }
-                main.onMsgFromFragToMain("RIGHT-FRAG", null, index, len);
+                main.onMsgFromFragToMain("RIGHT-FRAG", null, "next");
             }
         });
         return view_layout;
     }
 
     @Override
-    public void onMsgFromMainToFragment(String sender, Person strValue, int index, int len) {
-        txtId.setText(strValue.getId());
-        txtName.setText(strValue.getName());
-        txtClass.setText(strValue.getClassRoom());
-        txtPoint.setText(strValue.getPoint() + len + "");
-        newInstance(index);
+    public void onMsgFromMainToFragment(String sender, Person person, String action) {
+        txtId.setText(person.getId());
+        txtName.setText(person.getName());
+        txtClass.setText(person.getClassRoom());
+        txtPoint.setText(person.getPoint() + "");
     }
 }

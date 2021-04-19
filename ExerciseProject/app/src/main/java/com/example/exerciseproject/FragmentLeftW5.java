@@ -1,21 +1,15 @@
 package com.example.exerciseproject;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import androidx.fragment.app.Fragment;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +17,9 @@ public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
     private static int save = -1;
     MainActivity main;
     Context context = null;
-    //String message = "";
-    //private String items[] = {"Text-on-Line-00", "Text-on-Line-00", "Text-on-Line-00"};
     private ListView listView;
-//    private int index = 0;
+    private List<Person> personList;
+    private static int index = 0;
 
     public static FragmentLeftW5 newInstance(String strArg) {
         FragmentLeftW5 fragment = new FragmentLeftW5();
@@ -73,21 +66,21 @@ public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
         final TextView txtMsg = (TextView) layout_left.findViewById(R.id.txtMsg);
         listView = (ListView) layout_left.findViewById(R.id.list);
 
-        final List<Person> personList = getListData();
+        personList = getListData();
         CustomIconLabelAdapterW5 adapter = new CustomIconLabelAdapterW5(context, R.layout.custom_row5, personList);
         listView.setAdapter(adapter);
-
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                index = position;
 
                 Object o = listView.getItemAtPosition(position);
                 Person person = (Person) o;
                 String text = "Mã số: " + person.getId();
 
                 txtMsg.setText(text);
-                main.onMsgFromFragToMain("LEFT-FRAG", person, position, personList.size() - 1);
+                main.onMsgFromFragToMain("LEFT-FRAG", person, null);
 
                 if (save != -1 && save != position) {
 //                    parent.getChildAt(save).setBackgroundColor(Color.WHITE);
@@ -96,8 +89,6 @@ public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
                 }
 
                 save = position;
-
-
             }
         });
         return layout_left;
@@ -106,27 +97,26 @@ public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
     public void onStart() {
         super.onStart();
 
-        listView.performItemClick(listView.getSelectedView(),0, 0);
-//        listView.performItemClick(
-//                listView.getAdapter().getView(0,null,null),0,listView.getAdapter().getItemId(0));
+        listView.performItemClick(listView.getSelectedView(), 0, 0);
     }
 
     @Override
-    public void onMsgFromMainToFragment(String sender, Person strValue, int index, int len) {
-//        if (position.equals("first")) {
-//            this.index = 0;
-//        } else if (position.equals("last")) {
-//            this.index = 4;
-//        } else if (position.equals("previous")) {
-//            if (this.index != 0) {
-//                this.index = this.index - 1;
-//            }
-//        } else if (position.equals("next")) {
-//            if (this.index != 4) {
-//                this.index = this.index + 1;
-//            }
-//        }
+    public void onMsgFromMainToFragment(String sender, Person person, String action) {
+        int len = personList.size() - 1;
+        if (action.equals("first")) {
+            this.index = 0;
+        } else if (action.equals("last")) {
+            this.index = len;
+        } else if (action.equals("previous")) {
+            if (this.index != 0) {
+                this.index = this.index - 1;
+            }
+        } else if (action.equals("next")) {
+            if (this.index != len) {
+                this.index = this.index + 1;
+            }
+        }
+
         listView.performItemClick(listView.getSelectedView(), index, 0);
     }
-
 }

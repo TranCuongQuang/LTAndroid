@@ -1,31 +1,8 @@
 package com.example.exerciseproject;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentTransaction;
-
-import android.app.Activity;
-import android.app.ListActivity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 public class MainActivity extends FragmentActivity implements MainCallbacks {
 
@@ -61,27 +38,13 @@ public class MainActivity extends FragmentActivity implements MainCallbacks {
     }
 
     @Override
-    public void onMsgFromFragToMain(String sender, Person strValue, int index, int len) {
-        Toast.makeText(getApplication(), sender +  " : index " + index +  " : len " + len, Toast.LENGTH_SHORT).show();
-
-//        Toast.makeText(getApplication(), " MAIN GOT>>" + sender + "\n" + strValue.getId(), Toast.LENGTH_LONG).show();
+    public void onMsgFromFragToMain(String sender, Person person, String action) {
+//        Toast.makeText(getApplication(), sender +  " : action " + action, Toast.LENGTH_SHORT).show();
         if (sender.equals("RIGHT-FRAG")) {
-            frmLeft.onMsgFromMainToFragment(sender, strValue, index, len);
-
-//            Toast.makeText(getApplication(), "len" + len, Toast.LENGTH_SHORT).show();
+            frmLeft.onMsgFromMainToFragment(sender, person, action);
         }
         if (sender.equals("LEFT-FRAG")) {
-            frmRight.onMsgFromMainToFragment(sender, strValue, index, len);
+            frmRight.onMsgFromMainToFragment(sender, person, action);
         }
     }
-
-//    @Override
-//    public void onMsgFromRightFragToMain(String sender, String position) {
-////        Toast.makeText(getApplication(), " MAIN GOT>>" + sender + "\n" + strValue.getId(), Toast.LENGTH_LONG).show();
-//        if (sender.equals("RIGHT-FRAG")) {
-//            Toast.makeText(getApplication(), " MAIN GOT>>" + sender + "\n" + position, Toast.LENGTH_LONG).show();
-//            frmLeft.onMsgFromMainToLeftFragment(sender , position);
-//        }
-//
-//    }
 }
