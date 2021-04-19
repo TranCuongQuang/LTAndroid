@@ -26,7 +26,7 @@ public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
     //String message = "";
     //private String items[] = {"Text-on-Line-00", "Text-on-Line-00", "Text-on-Line-00"};
     private ListView listView;
-    private int index = 0;
+    int index = 0;
 
     public static FragmentLeftW5 newInstance(String strArg) {
         FragmentLeftW5 fragment = new FragmentLeftW5();
@@ -79,10 +79,12 @@ public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 //                position = 0;
                 Object o = listView.getItemAtPosition(position);
+                index = position;
                 Person person = (Person) o;
                 String text = "Mã số: " + person.getId();
 
