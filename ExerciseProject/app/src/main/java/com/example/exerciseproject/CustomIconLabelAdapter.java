@@ -13,7 +13,6 @@ import java.util.List;
 
 public class CustomIconLabelAdapter extends ArrayAdapter {
     Context context;
-
     private List<Person> listData;
 
     public CustomIconLabelAdapter(Context context, int layoutToBeInflated, List<Person> listData) {

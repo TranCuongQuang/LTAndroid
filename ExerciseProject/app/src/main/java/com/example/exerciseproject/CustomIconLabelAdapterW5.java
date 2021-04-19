@@ -2,6 +2,8 @@ package com.example.exerciseproject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +15,6 @@ import java.util.List;
 
 public class CustomIconLabelAdapterW5 extends ArrayAdapter {
     Context context;
-
     private List<Person> listData;
 
     public CustomIconLabelAdapterW5(Context context, int layoutToBeInflated, List<Person> listData) {
@@ -28,15 +29,13 @@ public class CustomIconLabelAdapterW5 extends ArrayAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             convertView = inflater.inflate(R.layout.custom_row5, null);
-            if(position == 0){
-                // This is the first item, you need to select this
+            if (position == 0) {
                 convertView.setSelected(true);
-
             }
             holder = new ViewHolder();
             holder.imgAvatar = (ImageView) convertView.findViewById(R.id.imgAvatar);
@@ -44,10 +43,8 @@ public class CustomIconLabelAdapterW5 extends ArrayAdapter {
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
-            if(position == 0){
-                // This is the first item, you need to select this
+            if (position == 0) {
                 convertView.setSelected(true);
-
             }
         }
 
@@ -56,6 +53,14 @@ public class CustomIconLabelAdapterW5 extends ArrayAdapter {
         holder.txtId.setText(person.getId());
         int imageId = this.getDrawableResIdByName(person.getAvatar());
         holder.imgAvatar.setImageResource(imageId);
+
+//        convertView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.d("", "Touched row "+position);
+//            }
+//
+//        });
 
         return convertView;
     }

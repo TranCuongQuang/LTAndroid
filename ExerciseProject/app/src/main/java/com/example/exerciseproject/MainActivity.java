@@ -2,6 +2,7 @@ package com.example.exerciseproject;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+
 import android.os.Bundle;
 
 public class MainActivity extends FragmentActivity implements MainCallbacks {

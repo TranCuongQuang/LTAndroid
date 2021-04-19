@@ -1,6 +1,8 @@
 package com.example.exerciseproject;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +11,14 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import androidx.fragment.app.Fragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
-    private static int save = -1;
+    //    private static int save = -1;
     MainActivity main;
     Context context = null;
     private ListView listView;
@@ -67,10 +71,12 @@ public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
         listView = (ListView) layout_left.findViewById(R.id.list);
 
         personList = getListData();
-        CustomIconLabelAdapterW5 adapter = new CustomIconLabelAdapterW5(context, R.layout.custom_row5, personList);
+        final CustomIconLabelAdapterW5 adapter = new CustomIconLabelAdapterW5(context, R.layout.custom_row5, personList);
         listView.setAdapter(adapter);
 
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @SuppressLint("ResourceType")
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 index = position;
@@ -82,13 +88,13 @@ public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
                 txtMsg.setText(text);
                 main.onMsgFromFragToMain("LEFT-FRAG", person, null);
 
-                if (save != -1 && save != position) {
+//                if (save != -1 && save != position) {
 //                    parent.getChildAt(save).setBackgroundColor(Color.WHITE);
-                } else {
+//                } else {
 //                    parent.getChildAt(save).setBackgroundColor(Color.BLUE);
-                }
+//                }
+//                save = position;
 
-                save = position;
             }
         });
         return layout_left;
