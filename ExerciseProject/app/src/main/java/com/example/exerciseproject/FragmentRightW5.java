@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment;
 import java.io.Serializable;
 import java.util.Date;
 
-public class FragmentRightW5 extends Fragment implements FragmentCallbacks, View.OnClickListener {
+public class FragmentRightW5 extends Fragment implements FragmentCallbacks {
     MainActivity main;
     TextView txtId;
     TextView txtName;
@@ -27,11 +27,17 @@ public class FragmentRightW5 extends Fragment implements FragmentCallbacks, View
     Button btnNext;
     Button btnLast;
 
-    public static FragmentRightW5 newInstance(Person strArg1) {
+    private int index = 0;
+    private int len = 4;
+
+    public static FragmentRightW5 newInstance(int index) {
         FragmentRightW5 fragment = new FragmentRightW5();
+
         Bundle bundle = new Bundle();
-        bundle.putParcelable("arg1", (Parcelable)strArg1);
+        bundle.putInt("index", index);
+        //bundle.putInt("len", len);
         fragment.setArguments(bundle);
+
         return fragment;
     }
 
@@ -47,57 +53,70 @@ public class FragmentRightW5 extends Fragment implements FragmentCallbacks, View
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        LinearLayout view_layout= (LinearLayout) inflater.inflate(R.layout.fragment_right, null);
+        LinearLayout view_layout = (LinearLayout) inflater.inflate(R.layout.fragment_right, null);
         txtId = (TextView) view_layout.findViewById(R.id.txtId);
         txtClass = (TextView) view_layout.findViewById(R.id.txtClass);
         txtName = (TextView) view_layout.findViewById(R.id.txtName);
         txtPoint = (TextView) view_layout.findViewById(R.id.txtPoint);
 
         btnFirst = (Button) view_layout.findViewById(R.id.btnFirst);
-        btnPrevious = (Button) view_layout.findViewById(R.id.btnNext);
+        btnPrevious = (Button) view_layout.findViewById(R.id.btnPrevious);
         btnNext = (Button) view_layout.findViewById(R.id.btnNext);
         btnLast = (Button) view_layout.findViewById(R.id.btnLast);
 
+        try {
+            Bundle arguments = getArguments();
+            index = arguments.getInt("index");
+            len = 4;
+        } catch (Exception e) {
 
-//        try {
-//            Bundle arguments = getArguments();
-//            txtId.setText(arguments.getString("arg1", ""));
-//        } catch (Exception e) {
-//            Log.e("RED BUNDLE ERROR – ", "" + e.getMessage());
-//        }
+        }
 
-//        btnClick = (Button) view_layout.findViewById(R.id.btnClick);
+
         btnFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                String redMessage = "Red clock:\n" + new Date().toString();
-//                txtId.setText(redMessage);
-//                main.onMsgFromFragToMain("RED-FRAG", redMessage);
+                main.onMsgFromFragToMain("RIGHT-FRAG", null, 0, len);
+            }
+        });
 
-               // Bundle arguments = getArguments();
-               // Person person = (Person) arguments.getParcelable("arg1");
-               // main.onMsgFromFragToMain("RIGHT-FRAG", person);
+        btnLast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                main.onMsgFromFragToMain("RIGHT-FRAG", null, len, len);
+            }
+        });
+
+        btnPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (index != 0) {
+                    index = index - 1;
+                }
+                main.onMsgFromFragToMain("RIGHT-FRAG", null, index, len);
+            }
+        });
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if (index != len) {
+                    index = index + 1;
+                }
+                main.onMsgFromFragToMain("RIGHT-FRAG", null, index, len);
             }
         });
         return view_layout;
     }
 
     @Override
-    public void onClick(View v) {
-        if (v.getId() == btnFirst.getId()) {
-            Bundle arguments = getArguments();
-            Person person = (Person) arguments.getSerializable("arg1");
-            main.onMsgFromFragToMain("RIGHT-FRAG", person);
-        }
-    }
-
-    @Override
-    public void onMsgFromMainToFragment(String sender, Person strValue) {
+    public void onMsgFromMainToFragment(String sender, Person strValue, int index, int len) {
         txtId.setText(strValue.getId());
         txtName.setText(strValue.getName());
         txtClass.setText(strValue.getClassRoom());
-        txtPoint.setText(strValue.getPoint() + "");
-
-//        newInstance(strValue);
+        txtPoint.setText(strValue.getPoint() + len + "");
+        newInstance(index);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.exerciseproject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,12 +19,14 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentLeftW5 extends Fragment {
+public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
+    private static int save = -1;
     MainActivity main;
     Context context = null;
-    private static int save = -1;
     //String message = "";
     //private String items[] = {"Text-on-Line-00", "Text-on-Line-00", "Text-on-Line-00"};
+    private ListView listView;
+//    private int index = 0;
 
     public static FragmentLeftW5 newInstance(String strArg) {
         FragmentLeftW5 fragment = new FragmentLeftW5();
@@ -68,52 +71,62 @@ public class FragmentLeftW5 extends Fragment {
         LinearLayout layout_left = (LinearLayout) inflater.inflate(R.layout.fragment_left, null);
 
         final TextView txtMsg = (TextView) layout_left.findViewById(R.id.txtMsg);
-        final ListView listView = (ListView) layout_left.findViewById(R.id.list);
+        listView = (ListView) layout_left.findViewById(R.id.list);
 
-        List<Person> personList = getListData();
+        final List<Person> personList = getListData();
         CustomIconLabelAdapterW5 adapter = new CustomIconLabelAdapterW5(context, R.layout.custom_row5, personList);
-
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, items);
         listView.setAdapter(adapter);
-        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-//        listView.setBackgroundColor(Color.parseColor("#ffccddff"));
-        listView.setSelection(0);
-//        listView.setSelected(true);
-//        listView.setItemChecked(0, true);
-//        ListAdapter adapter1 = listView.getAdapter();
-//        listView.performItemClick(listView.getChildAt(0), 0, adapter1.getItemId(0));
-//        listView.setSelected(true);
-//        listView.setItemChecked(0, true);
-       // listView.performItemClick(listView.getAdapter().getView(0, listView, null), 0, 0);
-//        listView.performItemClick(listView.getSelectedView(), 0, 0);
-       //
-        //listView.performItemClick(adapter.getView(0,null,null), 0, adapter.getItemId(0));
-//        listView.performItemClick( listView.getAdapter().getView(0,null,null),0,listView.getAdapter().getItemId(0));
-        listView.getAdapter().getView(1, null, null).performClick();
-
-        listView.smoothScrollToPosition(0);
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+
                 Object o = listView.getItemAtPosition(position);
                 Person person = (Person) o;
                 String text = "Mã số: " + person.getId();
 
                 txtMsg.setText(text);
-                main.onMsgFromFragToMain("LEFT-FRAG", person);
+                main.onMsgFromFragToMain("LEFT-FRAG", person, position, personList.size() - 1);
 
-
-                parent.getChildAt(position).setBackgroundColor(Color.BLUE);
-                if (save != -1 && save != position){
-                    parent.getChildAt(save).setBackgroundColor(Color.WHITE);
+                if (save != -1 && save != position) {
+//                    parent.getChildAt(save).setBackgroundColor(Color.WHITE);
+                } else {
+//                    parent.getChildAt(save).setBackgroundColor(Color.BLUE);
                 }
 
                 save = position;
+
 
             }
         });
         return layout_left;
     }
+
+    public void onStart() {
+        super.onStart();
+
+        listView.performItemClick(listView.getSelectedView(),0, 0);
+//        listView.performItemClick(
+//                listView.getAdapter().getView(0,null,null),0,listView.getAdapter().getItemId(0));
+    }
+
+    @Override
+    public void onMsgFromMainToFragment(String sender, Person strValue, int index, int len) {
+//        if (position.equals("first")) {
+//            this.index = 0;
+//        } else if (position.equals("last")) {
+//            this.index = 4;
+//        } else if (position.equals("previous")) {
+//            if (this.index != 0) {
+//                this.index = this.index - 1;
+//            }
+//        } else if (position.equals("next")) {
+//            if (this.index != 4) {
+//                this.index = this.index + 1;
+//            }
+//        }
+        listView.performItemClick(listView.getSelectedView(), index, 0);
+    }
+
 }

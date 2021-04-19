@@ -29,7 +29,7 @@ import java.util.List;
 
 public class MainActivity extends FragmentActivity implements MainCallbacks {
 
-//    FragmentTransaction ft;
+    //    FragmentTransaction ft;
     FragmentLeftW5 frmLeft;
     FragmentRightW5 frmRight;
 
@@ -52,26 +52,36 @@ public class MainActivity extends FragmentActivity implements MainCallbacks {
     @Override
     public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
-        if (fragment.getClass() == FragmentLeftW5.class ){
+        if (fragment.getClass() == FragmentLeftW5.class) {
             frmLeft = (FragmentLeftW5) fragment;
         }
-        if (fragment.getClass() == FragmentRightW5.class ){
+        if (fragment.getClass() == FragmentRightW5.class) {
             frmRight = (FragmentRightW5) fragment;
         }
     }
 
     @Override
-    public void onMsgFromFragToMain(String sender, Person strValue) {
+    public void onMsgFromFragToMain(String sender, Person strValue, int index, int len) {
+        Toast.makeText(getApplication(), sender +  " : index " + index +  " : len " + len, Toast.LENGTH_SHORT).show();
+
 //        Toast.makeText(getApplication(), " MAIN GOT>>" + sender + "\n" + strValue.getId(), Toast.LENGTH_LONG).show();
         if (sender.equals("RIGHT-FRAG")) {
-            Toast.makeText(getApplication(), " MAIN GOT>>" + sender + "\n" + strValue.getId(), Toast.LENGTH_LONG).show();
+            frmLeft.onMsgFromMainToFragment(sender, strValue, index, len);
+
+//            Toast.makeText(getApplication(), "len" + len, Toast.LENGTH_SHORT).show();
         }
         if (sender.equals("LEFT-FRAG")) {
-            try {
-                frmRight.onMsgFromMainToFragment(sender ,strValue);
-            } catch (Exception e) {
-                Log.e("ERROR", "onStrFromFragToMain" + e.getMessage());
-            }
+            frmRight.onMsgFromMainToFragment(sender, strValue, index, len);
         }
     }
+
+//    @Override
+//    public void onMsgFromRightFragToMain(String sender, String position) {
+////        Toast.makeText(getApplication(), " MAIN GOT>>" + sender + "\n" + strValue.getId(), Toast.LENGTH_LONG).show();
+//        if (sender.equals("RIGHT-FRAG")) {
+//            Toast.makeText(getApplication(), " MAIN GOT>>" + sender + "\n" + position, Toast.LENGTH_LONG).show();
+//            frmLeft.onMsgFromMainToLeftFragment(sender , position);
+//        }
+//
+//    }
 }
