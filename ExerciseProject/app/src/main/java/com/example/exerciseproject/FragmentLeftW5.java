@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
-    //    private static int save = -1;
+    private static int save = -1;
     MainActivity main;
     Context context = null;
     private ListView listView;
@@ -71,9 +71,8 @@ public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
         listView = (ListView) layout_left.findViewById(R.id.list);
 
         personList = getListData();
-        final CustomIconLabelAdapterW5 adapter = new CustomIconLabelAdapterW5(context, R.layout.custom_row5, personList);
+        CustomIconLabelAdapterW5 adapter = new CustomIconLabelAdapterW5(context, R.layout.custom_row5, personList);
         listView.setAdapter(adapter);
-
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @SuppressLint("ResourceType")
@@ -88,23 +87,22 @@ public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
                 txtMsg.setText(text);
                 main.onMsgFromFragToMain("LEFT-FRAG", person, null);
 
-//                if (save != -1 && save != position) {
-//                    parent.getChildAt(save).setBackgroundColor(Color.WHITE);
-//                } else {
-//                    parent.getChildAt(save).setBackgroundColor(Color.BLUE);
-//                }
-//                save = position;
+                parent.getChildAt(position).setBackgroundColor(Color.BLUE);
+                if (save != -1 && save != position){
+                    parent.getChildAt(save).setBackgroundColor(Color.WHITE);
+                }
+                save = position;
 
             }
         });
         return layout_left;
     }
 
-    public void onStart() {
-        super.onStart();
-
-        listView.performItemClick(listView.getSelectedView(), 0, 0);
-    }
+//    public void onStart() {
+//        super.onStart();
+//
+//        listView.performItemClick(listView.getSelectedView(), 0, 0);
+//    }
 
     @Override
     public void onMsgFromMainToFragment(String sender, Person person, String action) {

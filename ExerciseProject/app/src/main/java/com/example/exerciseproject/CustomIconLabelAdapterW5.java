@@ -34,18 +34,18 @@ public class CustomIconLabelAdapterW5 extends ArrayAdapter {
         if (convertView == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             convertView = inflater.inflate(R.layout.custom_row5, null);
-            if (position == 0) {
-                convertView.setSelected(true);
-            }
+//            if (position == 0) {
+//                convertView.setSelected(true);
+//            }
             holder = new ViewHolder();
             holder.imgAvatar = (ImageView) convertView.findViewById(R.id.imgAvatar);
             holder.txtId = (TextView) convertView.findViewById(R.id.txtId);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
-            if (position == 0) {
-                convertView.setSelected(true);
-            }
+//            if (position == 0) {
+//                convertView.setSelected(true);
+//            }
         }
 
         Person person = this.listData.get(position);

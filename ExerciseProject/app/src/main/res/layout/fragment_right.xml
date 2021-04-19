@@ -34,7 +34,7 @@
             android:id="@+id/txtName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ng A" />
+            android:text="" />
     </LinearLayout>
 
     <LinearLayout
@@ -55,7 +55,7 @@
             android:id="@+id/txtClass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="A1" />
+            android:text="" />
     </LinearLayout>
 
     <LinearLayout
@@ -76,7 +76,7 @@
             android:id="@+id/txtPoint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="8" />
+            android:text="" />
     </LinearLayout>
 
     <LinearLayout
