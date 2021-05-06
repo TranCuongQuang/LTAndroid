@@ -2,8 +2,12 @@ package com.example.exerciseproject;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +18,18 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
     private static int save = -1;
-    MainActivityW5 main;
+    MainActivity main;
     Context context = null;
     private ListView listView;
     private List<Person> personList;
     private static int index = 0;
+    SQLiteDatabase db;
 
     public static FragmentLeftW5 newInstance(String strArg) {
         FragmentLeftW5 fragment = new FragmentLeftW5();
@@ -38,7 +44,7 @@ public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
         super.onCreate(savedInstanceState);
         try {
             context = getActivity();
-            main = (MainActivityW5) getActivity();
+            main = (MainActivity) getActivity();
         } catch (IllegalStateException e) {
             throw new IllegalStateException("MainActivity must implement callbacks");
         }
@@ -47,18 +53,51 @@ public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
     private List<Person> getListData() {
         List<Person> list = new ArrayList<Person>();
 
-        Person p1 = new Person("A01", "Nguyễn Văn A", "icon_1", "A1", 10);
-        Person p2 = new Person("A02", "Nguyễn Văn B", "icon_2", "A2", 9);
-        Person p3 = new Person("A03", "Nguyễn Văn C", "icon_3", "A3", 8);
-        Person p4 = new Person("A04", "Nguyễn Văn D", "icon_4", "A4", 7);
-        Person p5 = new Person("A05", "Nguyễn Văn E", "icon_5", "A5", 6);
+        File storagePath = main.getApplication().getFilesDir();
+        String myDbPath = storagePath + "/" + "school";
 
-        list.add(p1);
-        list.add(p2);
-        list.add(p3);
-        list.add(p4);
-        list.add(p5);
+        try {
+            db = SQLiteDatabase.openDatabase(myDbPath, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+            System.out.println("-------" + storagePath);
+            Log.e("-----", myDbPath);
+            list = useRawQueryShowAll();
+            db.close();
+        } catch (SQLiteException e) {
+        }
 
+
+//        Person p1 = new Person("A01", "Nguyễn Văn A", "icon_1", "A1", 10);
+//        Person p2 = new Person("A02", "Nguyễn Văn B", "icon_2", "A2", 9);
+//        Person p3 = new Person("A03", "Nguyễn Văn C", "icon_3", "A3", 8);
+//        Person p4 = new Person("A04", "Nguyễn Văn D", "icon_4", "A4", 7);
+//        Person p5 = new Person("A05", "Nguyễn Văn E", "icon_5", "A5", 6);
+//
+//        list.add(p1);
+//        list.add(p2);
+//        list.add(p3);
+//        list.add(p4);
+//        list.add(p5);
+//
+        return list;
+    }
+
+    private List<Person> useRawQueryShowAll() {
+        List<Person> list = new ArrayList<Person>();
+        try { // hard-coded SQL select with no arguments
+
+            Cursor c1 = db.rawQuery("select * from lop as l inner join hocsinh as h on h.maLop = l.maLop ", null);
+            c1.moveToPosition(-1); //reset cursor's top
+            int mahs = c1.getColumnIndex("maHocSinh");
+            int tenHS = c1.getColumnIndex("TenHS");
+            int diem = c1.getColumnIndex("Diem");
+            int tenlop = c1.getColumnIndex("TenLop");
+            while (c1.moveToNext()) {
+                Person p1 = new Person(Integer.toString((c1.getInt(mahs))), c1.getString(tenHS), "icon_1", c1.getString(tenlop), Float.parseFloat(String.valueOf(c1.getInt(diem))));
+                list.add(p1);
+            }
+
+        } catch (Exception e) {
+        }
         return list;
     }
 
