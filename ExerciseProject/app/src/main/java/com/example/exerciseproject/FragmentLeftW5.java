@@ -45,6 +45,7 @@ public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
         try {
             context = getActivity();
             main = (MainActivity) getActivity();
+
         } catch (IllegalStateException e) {
             throw new IllegalStateException("MainActivity must implement callbacks");
         }
@@ -58,13 +59,21 @@ public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
 
         try {
             db = SQLiteDatabase.openDatabase(myDbPath, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-            System.out.println("-------" + storagePath);
-            Log.e("-----", myDbPath);
-            list = useRawQueryShowAll();
+
+            Cursor c1 = db.rawQuery("select l.TenLop, h.MaHS, h.Diem, h.TenHS from tblLop as l inner join tblHocSinh as h on h.MaLop = l.MaLop ", null);
+            c1.moveToPosition(-1);
+            int mahs = c1.getColumnIndex("MaHS");
+            int tenHS = c1.getColumnIndex("TenHS");
+            int diem = c1.getColumnIndex("Diem");
+            int tenlop = c1.getColumnIndex("TenLop");
+            while (c1.moveToNext()) {
+                Person p = new Person(Integer.toString((c1.getInt(mahs))), c1.getString(tenHS), "icon_1", c1.getString(tenlop), Float.parseFloat(String.valueOf(c1.getInt(diem))));
+                list.add(p);
+            }
+            listView.performItemClick(listView.getChildAt(0), 0, 0);
             db.close();
         } catch (SQLiteException e) {
         }
-
 
 //        Person p1 = new Person("A01", "Nguyễn Văn A", "icon_1", "A1", 10);
 //        Person p2 = new Person("A02", "Nguyễn Văn B", "icon_2", "A2", 9);
@@ -81,35 +90,15 @@ public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
         return list;
     }
 
-    private List<Person> useRawQueryShowAll() {
-        List<Person> list = new ArrayList<Person>();
-        try { // hard-coded SQL select with no arguments
-
-            Cursor c1 = db.rawQuery("select * from lop as l inner join hocsinh as h on h.maLop = l.maLop ", null);
-            c1.moveToPosition(-1); //reset cursor's top
-            int mahs = c1.getColumnIndex("maHocSinh");
-            int tenHS = c1.getColumnIndex("TenHS");
-            int diem = c1.getColumnIndex("Diem");
-            int tenlop = c1.getColumnIndex("TenLop");
-            while (c1.moveToNext()) {
-                Person p1 = new Person(Integer.toString((c1.getInt(mahs))), c1.getString(tenHS), "icon_1", c1.getString(tenlop), Float.parseFloat(String.valueOf(c1.getInt(diem))));
-                list.add(p1);
-            }
-
-        } catch (Exception e) {
-        }
-        return list;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         LinearLayout layout_left = (LinearLayout) inflater.inflate(R.layout.fragment_left, null);
 
         final TextView txtMsg = (TextView) layout_left.findViewById(R.id.txtMsg);
         listView = (ListView) layout_left.findViewById(R.id.list);
 
         personList = getListData();
+
         CustomIconLabelAdapterW5 adapter = new CustomIconLabelAdapterW5(context, R.layout.custom_row5, personList);
         listView.setAdapter(adapter);
 
@@ -127,21 +116,24 @@ public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
                 main.onMsgFromFragToMain("LEFT-FRAG", person, null);
 
                 parent.getChildAt(position).setBackgroundColor(Color.BLUE);
-                if (save != -1 && save != position){
+                if (save != -1 && save != position) {
                     parent.getChildAt(save).setBackgroundColor(Color.WHITE);
                 }
                 save = position;
 
             }
         });
+
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                listView.performItemClick(listView.getSelectedView(), 0, 0);
+            }
+        };
+        listView.postDelayed(r, 100);
+
         return layout_left;
     }
-
-//    public void onStart() {
-//        super.onStart();
-//
-//        listView.performItemClick(listView.getSelectedView(), 0, 0);
-//    }
 
     @Override
     public void onMsgFromMainToFragment(String sender, Person person, String action) {
