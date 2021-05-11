@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 public class FragmentRightW5 extends Fragment implements FragmentCallbacks {
-    MainActivity main;
+    MainActivityW8 main;
     TextView txtId;
     TextView txtName;
     TextView txtClass;
@@ -36,7 +36,7 @@ public class FragmentRightW5 extends Fragment implements FragmentCallbacks {
         if (!(getActivity() instanceof MainCallbacks)) {
             throw new IllegalStateException("Activity must implement MainCallbacks");
         }
-        main = (MainActivity) getActivity();
+        main = (MainActivityW8) getActivity();
     }
 
     @Override

@@ -8,6 +8,11 @@ public class Person {
     private float Point;
     private String Id;
 
+    public Person(String name, String avatar) {
+        this.Name = name;
+        this.Avatar = avatar;
+    }
+
     public Person(String name, String avatar, String phone) {
         this.Name = name;
         this.Avatar = avatar;

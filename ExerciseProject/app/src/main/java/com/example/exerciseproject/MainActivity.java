@@ -1,143 +1,55 @@
 package com.example.exerciseproject;
 
-import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.io.File;
-
-public class MainActivity extends FragmentActivity implements MainCallbacks {
-
-    //    FragmentTransaction ft;
-    FragmentLeftW5 frmLeft;
-    FragmentRightW5 frmRight;
-    SQLiteDatabase db;
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main5);
-//        ft = getSupportFragmentManager().beginTransaction();
-//        frmLeft = frmLeft.newInstance("first-blue");
-//        ft.replace(R.id.frmLeft, frmLeft);
-//        ft.commit();
-//
-//        ft = getSupportFragmentManager().beginTransaction();
-//        frmRight = FragmentRightW5.newInstance("first-red");
-//        ft.replace(R.id.frmRight, frmRight);
-//        ft.commit();
-    }
+        setContentView(R.layout.activity_main9);
+        final GridView grid = (GridView) findViewById(R.id.grid);
+        List<Person> personList = getListData();
+        CustomGridAdapter adapter = new CustomGridAdapter(this, R.layout.custom_row9, personList);
+        grid.setAdapter(adapter);
 
-    public boolean tableExists(SQLiteDatabase db, String tableName) {
-        //true if table exists, false otherwise
-        String mySql = "SELECT name FROM sqlite_master " + " WHERE type='table' " + " AND name='" + tableName + "'";
-        int resultSize = db.rawQuery(mySql, null).getCount();
-        if (resultSize != 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> container, View v, int position, long id) {
+                Object o = grid.getItemAtPosition(position);
+                Person person = (Person) o;
+                Toast.makeText(MainActivity.this, "Selected :" + " " + person.getName(), Toast.LENGTH_SHORT).show();
 
-    private void createTableLop() {
-        db.beginTransaction();
-        try {
-            db.execSQL("create table tblLop (MaLop integer PRIMARY KEY autoincrement, TenLop text );");
-            db.setTransactionSuccessful();
-        } catch (SQLException e1) {
-            finish();
-        } finally {
-            db.endTransaction();
-        }
-    }
-
-    private void insertLop() {
-        db.beginTransaction();
-        try {
-            db.execSQL("insert into tblLop(TenLop) " + " values ('Lop 1' );");
-            db.execSQL("insert into tblLop(TenLop) " + " values ('Lop 2' );");
-            db.execSQL("insert into tblLop(TenLop) " + " values ('Lop 3' );");
-
-            db.setTransactionSuccessful();
-        } catch (SQLiteException e2) {
-        } finally {
-            db.endTransaction();
-        }
-    }
-
-    private void createTableHocSinh() {
-        db.beginTransaction();
-        try {
-            db.execSQL("create table tblHocSinh (MaHS integer PRIMARY KEY autoincrement, TenHS text, Diem float, MaLop integer );");
-
-            db.setTransactionSuccessful();
-        } catch (SQLException e1) {
-            finish();
-        } finally {
-            db.endTransaction();
-        }
-    }
-
-    private void insertHocSinh() {
-        db.beginTransaction();
-        try {
-            db.execSQL("insert into tblHocSinh(TenHS, Diem, MaLop) " + " values ('Nguyen Van A', 10, 1 );");
-            db.execSQL("insert into tblHocSinh(TenHS, Diem, MaLop) " + " values ('Nguyen Van B', 9, 1 );");
-            db.execSQL("insert into tblHocSinh(TenHS, Diem, MaLop) " + " values ('Nguyen Van C', 8, 2 );");
-            db.execSQL("insert into tblHocSinh(TenHS, Diem, MaLop) " + " values ('Nguyen Van D', 7, 3 );");
-            db.execSQL("insert into tblHocSinh(TenHS, Diem, MaLop) " + " values ('Nguyen Van E', 6, 3 );");
-            db.setTransactionSuccessful();
-        } catch (SQLiteException e2) {
-        } finally {
-            db.endTransaction();
-        }
-    }
-
-    @Override
-    public void onAttachFragment(Fragment fragment) {
-        super.onAttachFragment(fragment);
-        if (fragment.getClass() == FragmentLeftW5.class) {
-            frmLeft = (FragmentLeftW5) fragment;
-        }
-        if (fragment.getClass() == FragmentRightW5.class) {
-            frmRight = (FragmentRightW5) fragment;
-        }
-
-        File storagePath = getApplication().getFilesDir();
-        String myDbPath = storagePath + "/" + "school";
-        try {
-            db = SQLiteDatabase.openDatabase(myDbPath, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-
-            boolean checkTableLop = tableExists(db, "tblLop");
-            boolean checkTableHocSinh = tableExists(db, "tblHocSinh");
-            if (checkTableLop == false) {
-                createTableLop();
-                insertLop();
+                Intent callMainActivityChannel = new Intent(MainActivity.this, MainActivityChannel.class);
+//                Bundle myData = new Bundle();
+//                myData.putString("Name",  person.getName().toString());
+//                callMainActivityChannel.putExtras(myData);
+                startActivity(callMainActivityChannel);
             }
-            if (checkTableHocSinh == false) {
-                createTableHocSinh();
-                insertHocSinh();
-            }
+        });
 
-            db.close();
-        } catch (SQLiteException e) {
-        }
     }
 
-    @Override
-    public void onMsgFromFragToMain(String sender, Person person, String action) {
-//        Toast.makeText(getApplication(), sender +  " : action " + action, Toast.LENGTH_SHORT).show();
-        if (sender.equals("RIGHT-FRAG")) {
-            frmLeft.onMsgFromMainToFragment(sender, person, action);
-        }
-        if (sender.equals("LEFT-FRAG")) {
-            frmRight.onMsgFromMainToFragment(sender, person, action);
-        }
+    private List<Person> getListData() {
+        List<Person> list = new ArrayList<Person>();
+
+        Person p1 = new Person("VnExpress","vnexpress");
+        Person p2 = new Person("DanTri","dantri");
+        Person p3 = new Person("ThanhNien","thanhnien");
+
+        list.add(p1);
+        list.add(p2);
+        list.add(p3);
+
+        return list;
     }
 }

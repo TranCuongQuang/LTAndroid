@@ -24,7 +24,7 @@ import java.util.List;
 
 public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
     private static int save = -1;
-    MainActivity main;
+    MainActivityW8 main;
     Context context = null;
     private ListView listView;
     private List<Person> personList;
@@ -44,7 +44,7 @@ public class FragmentLeftW5 extends Fragment implements FragmentCallbacks {
         super.onCreate(savedInstanceState);
         try {
             context = getActivity();
-            main = (MainActivity) getActivity();
+            main = (MainActivityW8) getActivity();
 
         } catch (IllegalStateException e) {
             throw new IllegalStateException("MainActivity must implement callbacks");
