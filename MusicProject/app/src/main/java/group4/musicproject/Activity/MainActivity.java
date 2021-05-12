@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.google.android.material.tabs.TabLayout;
 
 import group4.musicproject.Adapter.MainViewPagerAdapter;
+import group4.musicproject.Fragment.Fragment_Banner;
 import group4.musicproject.Fragment.Fragment_Tim_Kiem;
 import group4.musicproject.Fragment.Fragment_Trang_Chu;
 import group4.musicproject.R;
