@@ -11,6 +11,7 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -21,6 +22,9 @@ public class ShowHeadlines extends Activity {
     String urlAddress = "";
     String urlCaption = "";
     SingleItem selectedNewsItem;
+    String Name;
+    String Logo;
+    int imageId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,7 +37,14 @@ public class ShowHeadlines extends Activity {
         Bundle myBundle = callingIntent.getExtras();
         urlAddress = myBundle.getString("urlAddress");
         urlCaption = myBundle.getString("urlCaption");
-        this.setTitle("NPR - " + urlCaption + " \t" + MainActivityChannel.niceDate());
+        Name = myBundle.getString("Name");
+        Logo = myBundle.getString("Logo");
+
+        imageId = this.getDrawableResIdByName(Logo);
+        ImageView imgLogo = (ImageView) this.findViewById(R.id.imgLogoChange);
+        imgLogo.setImageResource(imageId);
+
+        this.setTitle(Name + " - " + urlCaption + " \t" + MainActivityChannel.niceDate());
 
         myListView = (ListView) this.findViewById(R.id.myListView);
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -57,7 +68,7 @@ public class ShowHeadlines extends Activity {
             final Uri storyLink = Uri.parse(selectedStoryItem.getLink());
             AlertDialog.Builder myBuilder = new AlertDialog.Builder(this);
             myBuilder
-                    .setIcon(R.drawable.vnexpress)
+                    .setIcon(imageId)
                     .setTitle(Html.fromHtml(urlCaption))
                     .setMessage(title + "\n\n" + Html.fromHtml(description) + "\n")
                     .setPositiveButton("Close", null)
@@ -71,5 +82,11 @@ public class ShowHeadlines extends Activity {
         } catch (Exception e) {
             Log.e("Error DialogBox", e.getMessage());
         }
+    }
+
+    public int getDrawableResIdByName(String resName) {
+        String pkgName = getPackageName();
+        int resID = getResources().getIdentifier(resName, "drawable", pkgName);
+        return resID;
     }
 }

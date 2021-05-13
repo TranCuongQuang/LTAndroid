@@ -6,10 +6,10 @@
     android:padding="5dp">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/ic_launcher_background" />
+        android:id="@+id/imgLogoChange"
+        android:layout_width="100sp"
+        android:layout_height="50sp"
+        android:layout_margin="10dp"/>
 
     <ListView
         android:id="@+id/myListView"

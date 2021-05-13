@@ -74,8 +74,8 @@ public class DownloadRssFeed extends AsyncTask<String, Void, ArrayList<SingleIte
     protected void onPostExecute(ArrayList<SingleItem> result) {
         super.onPostExecute(result);
         callerContext.newsList = result;
-//        int layoutID = R.layout.simple_list_item;
-        ArrayAdapter<SingleItem> adapterNews = new ArrayAdapter<SingleItem>(callerContext, android.R.layout.simple_list_item_1, result);
+        int layoutID = R.layout.simple_list_item;
+        ArrayAdapter<SingleItem> adapterNews = new ArrayAdapter<SingleItem>(callerContext, layoutID, result);
         callerContext.myListView.setAdapter(adapterNews);
         dialog.dismiss();
     }

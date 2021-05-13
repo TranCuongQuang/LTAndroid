@@ -27,12 +27,13 @@ public class MainActivity extends Activity {
             public void onItemClick(AdapterView<?> container, View v, int position, long id) {
                 Object o = grid.getItemAtPosition(position);
                 Person person = (Person) o;
-                Toast.makeText(MainActivity.this, "Selected :" + " " + person.getName(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "Selected :" + " " + person.getName(), Toast.LENGTH_SHORT).show();
 
                 Intent callMainActivityChannel = new Intent(MainActivity.this, MainActivityChannel.class);
-//                Bundle myData = new Bundle();
-//                myData.putString("Name",  person.getName().toString());
-//                callMainActivityChannel.putExtras(myData);
+                Bundle myData = new Bundle();
+                myData.putString("Name",  person.getName().toString());
+                myData.putString("Logo", person.getAvatar().toString());
+                callMainActivityChannel.putExtras(myData);
                 startActivity(callMainActivityChannel);
             }
         });
@@ -43,7 +44,7 @@ public class MainActivity extends Activity {
         List<Person> list = new ArrayList<Person>();
 
         Person p1 = new Person("VnExpress","vnexpress");
-        Person p2 = new Person("DanTri","dantri");
+        Person p2 = new Person("24h","bao24h");
         Person p3 = new Person("ThanhNien","thanhnien");
 
         list.add(p1);
