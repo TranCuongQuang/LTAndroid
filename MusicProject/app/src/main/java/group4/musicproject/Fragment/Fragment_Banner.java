@@ -27,7 +27,6 @@ import retrofit2.Response;
 
 public class Fragment_Banner extends Fragment {
     View view;
-    //    FragmentBannerBinding binding;
     BannerAdapter bannerAdapter;
     Runnable runnable;
     Handler handler;

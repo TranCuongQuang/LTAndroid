@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Banner {
+public class Banner implements  Serializable{
 
     @SerializedName("id")
     @Expose

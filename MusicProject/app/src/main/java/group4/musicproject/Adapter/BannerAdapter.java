@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import group4.musicproject.Activity.ListSongActivity;
 import group4.musicproject.Model.Banner;
 import group4.musicproject.R;
 
@@ -49,27 +50,22 @@ public class BannerAdapter extends PagerAdapter {
         ImageView imageviewbanner = view.findViewById(R.id.imageviewbanner);
         TextView txtTitleBanner = view.findViewById(R.id.txtTitleBanner);
         TextView txtContent = view.findViewById(R.id.txtContent);
-//        LineBannerBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.line_banner, container, false);
-//
+
         Picasso.with(context).load(arrHotSong.get(position).getHinhAnh()).into(imageviewbackgroundbanner);
         Picasso.with(context).load(arrHotSong.get(position).getHinhBaiHat()).into(imageviewbanner);
         txtTitleBanner.setText(arrHotSong.get(position).getTenBaiHat());
         txtContent.setText(arrHotSong.get(position).getNoiDung());
 
-        container.addView(view);
-//
-//        binding.getRoot().setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, ListSongActivity.class);
-//                intent.putExtra("banner", arrHotSong.get(position));
-//                context.startActivity(intent);
-//            }
-//        });
-//
-//        container.addView(binding.getRoot());
-//        return binding.getRoot();
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ListSongActivity.class);
+                intent.putExtra("banner", arrHotSong.get(position));
+                context.startActivity(intent);
+            }
+        });
 
+        container.addView(view);
         return view;
     }
 
