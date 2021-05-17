@@ -26,6 +26,9 @@ public interface DataService {
     @GET("albums")
     Call<List<Album>> GetAlbumCurrentDay();
 
+    @GET("songs/favorite")
+    Call<List<Song>> GetTheBestLikeSong();
+
     @FormUrlEncoded
     @POST("ads/song")
     Call<List<Song>> GetListSongByHotSong(@Field("idquangcao") String idquangcao);

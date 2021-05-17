@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -17,12 +16,12 @@ import java.util.ArrayList;
 import group4.musicproject.Model.Song;
 import group4.musicproject.R;
 
-public class TheBestLikeSongAdapter extends RecyclerView.Adapter<TheBestLikeSongAdapter.ViewHolder> {
+public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.ViewHolder> {
 
     Context context;
     ArrayList<Song> songs;
 
-    public TheBestLikeSongAdapter(Context context, ArrayList<Song> songs) {
+    public ListSongAdapter(Context context, ArrayList<Song> songs) {
         this.context = context;
         this.songs = songs;
     }
@@ -30,16 +29,15 @@ public class TheBestLikeSongAdapter extends RecyclerView.Adapter<TheBestLikeSong
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.item_thebestlikesong, parent, false);
+        View view = inflater.inflate(R.layout.item_listsong, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Song song = songs.get(position);
-        holder.textViewNameTheBestLikeSong.setText(song.getTenBaiHat());
-        holder.textViewArtistTheBestLikeSong.setText(song.getCaSi());
-        Picasso.with(context).load(song.getHinhBaiHat()).into(holder.imageViewTheBestLikeSong);
+        holder.textViewNameTheListSong.setText(song.getTenBaiHat());
+        holder.textViewArtistTheListSong.setText(song.getCaSi());
     }
 
     @Override
@@ -48,18 +46,15 @@ public class TheBestLikeSongAdapter extends RecyclerView.Adapter<TheBestLikeSong
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewNameTheBestLikeSong;
-        TextView textViewArtistTheBestLikeSong;
-        ImageView imageViewTheBestLikeSong;
+        TextView textViewNameTheListSong;
+        TextView textViewArtistTheListSong;
         ImageView imageViewLike;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            textViewNameTheBestLikeSong = itemView.findViewById(R.id.textViewNameTheBestLikeSong);
-            textViewArtistTheBestLikeSong = itemView.findViewById(R.id.textViewArtistTheBestLikeSong);
-            imageViewTheBestLikeSong = itemView.findViewById(R.id.imageViewTheBestLikeSong);
+            textViewNameTheListSong = itemView.findViewById(R.id.textViewNameTheListSong);
+            textViewArtistTheListSong = itemView.findViewById(R.id.textViewArtistTheListSong);
             imageViewLike = itemView.findViewById(R.id.imageViewLike);
         }
     }
 }
-

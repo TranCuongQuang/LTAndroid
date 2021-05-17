@@ -33,6 +33,11 @@
             android:id="@+id/fragmentAlbum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        <fragment
+            android:name="group4.musicproject.Fragment.Fragment_TheBestLikeSong"
+            android:id="@+id/fragmentTheBestLikeSong"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 </ScrollView>
