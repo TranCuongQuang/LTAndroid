@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -44,6 +45,9 @@ public class ShowHeadlines extends Activity {
         ImageView imgLogo = (ImageView) this.findViewById(R.id.imgLogoChange);
         imgLogo.setImageResource(imageId);
 
+        TextView txtTitle = (TextView) this.findViewById(R.id.txtTitle);
+        txtTitle.setText("Items in Channel " + urlCaption + " - " + Name);
+
         this.setTitle(Name + " - " + urlCaption + " \t" + MainActivityChannel.niceDate());
 
         myListView = (ListView) this.findViewById(R.id.myListView);
@@ -69,7 +73,7 @@ public class ShowHeadlines extends Activity {
             AlertDialog.Builder myBuilder = new AlertDialog.Builder(this);
             myBuilder
                     .setIcon(imageId)
-                    .setTitle(Html.fromHtml(urlCaption))
+                    .setTitle(Html.fromHtml(urlCaption + " - " + Name))
                     .setMessage(title + "\n\n" + Html.fromHtml(description) + "\n")
                     .setPositiveButton("Close", null)
                     .setNegativeButton("More", new DialogInterface.OnClickListener() {

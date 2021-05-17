@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -70,22 +71,25 @@ public class MainActivityChannel extends Activity {
 
         Intent callingIntent = getIntent();
         Bundle myBundle = callingIntent.getExtras();
-         Name = myBundle.getString("Name");
-         Logo = myBundle.getString("Logo");
+        Name = myBundle.getString("Name");
+        Logo = myBundle.getString("Logo");
 
         int imageId = this.getDrawableResIdByName(Logo);
-        ImageView imgLogo = (ImageView)this.findViewById(R.id.imgLogoChange);
+        ImageView imgLogo = (ImageView) this.findViewById(R.id.imgLogoChange);
         imgLogo.setImageResource(imageId);
 
-        if(Name.equals("VnExpress")){
+        TextView txtTitle = (TextView) this.findViewById(R.id.txtTitle);
+        txtTitle.setText("Channels in " + Name);
+
+        if (Name.equals("VnExpress")) {
             dataUrlCaptionMenu = vnExpressUrlCaptionMenu;
             dataUrlCaption = new String[dataUrlCaptionMenu.length];
             dataUrlAddress = new String[dataUrlCaptionMenu.length];
-        }else if(Name.equals("24h")){
+        } else if (Name.equals("24h")) {
             dataUrlCaptionMenu = _24hUrlCaptionMenu;
             dataUrlCaption = new String[dataUrlCaptionMenu.length];
             dataUrlAddress = new String[dataUrlCaptionMenu.length];
-        }else if(Name.equals("ThanhNien")){
+        } else if (Name.equals("ThanhNien")) {
             dataUrlCaptionMenu = thanhNienUrlCaptionMenu;
             dataUrlCaption = new String[dataUrlCaptionMenu.length];
             dataUrlAddress = new String[dataUrlCaptionMenu.length];
@@ -97,9 +101,9 @@ public class MainActivityChannel extends Activity {
         }
 
         context = getApplicationContext();
-        this.setTitle(Name +" News\n" + niceDate());
+        this.setTitle(Name + " News\n" + niceDate());
 
-        myMainListView = (ListView)this.findViewById(R.id.myListView);
+        myMainListView = (ListView) this.findViewById(R.id.myListView);
         myMainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> _av, View _v, int _index, long _id) {
                 String urlAddress = dataUrlAddress[_index];
@@ -126,9 +130,9 @@ public class MainActivityChannel extends Activity {
         return sdf.format(new Date());
     }
 
-    public int getDrawableResIdByName(String resName)  {
+    public int getDrawableResIdByName(String resName) {
         String pkgName = getPackageName();
-        int resID = getResources().getIdentifier(resName , "drawable", pkgName);
+        int resID = getResources().getIdentifier(resName, "drawable", pkgName);
         return resID;
     }
 }

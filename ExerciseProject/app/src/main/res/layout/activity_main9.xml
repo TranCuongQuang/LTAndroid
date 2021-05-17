@@ -12,10 +12,10 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:layout_margin="5dp"
         android:gravity="center"
         android:horizontalSpacing="5dp"
-        android:verticalSpacing="5dp"
-        android:scaleType="centerCrop"
-        android:numColumns="2" />
+        android:numColumns="2"
+        android:verticalSpacing="5dp" />
 
 </LinearLayout>
