@@ -1,11 +1,14 @@
 package group4.musicproject.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Song {
+public class Song implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -40,6 +43,52 @@ public class Song {
     @SerializedName("LuotThich")
     @Expose
     private Integer luotThich;
+
+    protected Song(Parcel in) {
+        if (in.readByte( ) == 0) {
+            id = null;
+        } else {
+            id = in.readInt( );
+        }
+        tenBaiHat = in.readString( );
+        hinhBaiHat = in.readString( );
+        caSi = in.readString( );
+        linkBaiHat = in.readString( );
+        if (in.readByte( ) == 0) {
+            idAlbum = null;
+        } else {
+            idAlbum = in.readInt( );
+        }
+        if (in.readByte( ) == 0) {
+            idTheLoai = null;
+        } else {
+            idTheLoai = in.readInt( );
+        }
+        if (in.readByte( ) == 0) {
+            idPlayList = null;
+        } else {
+            idPlayList = in.readInt( );
+        }
+        createdAt = in.readString( );
+        updatedAt = in.readString( );
+        if (in.readByte( ) == 0) {
+            luotThich = null;
+        } else {
+            luotThich = in.readInt( );
+        }
+    }
+
+    public static final Creator<Song> CREATOR = new Creator<Song>( ) {
+        @Override
+        public Song createFromParcel(Parcel in) {
+            return new Song(in);
+        }
+
+        @Override
+        public Song[] newArray(int size) {
+            return new Song[size];
+        }
+    };
 
     public Integer getId() {
         return id;
@@ -129,4 +178,48 @@ public class Song {
         this.luotThich = luotThich;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(id);
+        }
+        dest.writeString(tenBaiHat);
+        dest.writeString(hinhBaiHat);
+        dest.writeString(caSi);
+        dest.writeString(linkBaiHat);
+        if (idAlbum == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(idAlbum);
+        }
+        if (idTheLoai == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(idTheLoai);
+        }
+        if (idPlayList == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(idPlayList);
+        }
+        dest.writeString(createdAt);
+        dest.writeString(updatedAt);
+        if (luotThich == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(luotThich);
+        }
+    }
 }

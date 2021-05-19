@@ -1,6 +1,7 @@
 package group4.musicproject.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import group4.musicproject.Activity.ListSongActivity;
+import group4.musicproject.Activity.PlayMusicAcivity;
 import group4.musicproject.Model.Song;
 import group4.musicproject.R;
 
@@ -59,6 +62,16 @@ public class TheBestLikeSongAdapter extends RecyclerView.Adapter<TheBestLikeSong
             textViewArtistTheBestLikeSong = itemView.findViewById(R.id.textViewArtistTheBestLikeSong);
             imageViewTheBestLikeSong = itemView.findViewById(R.id.imageViewTheBestLikeSong);
             imageViewLike = itemView.findViewById(R.id.imageViewLike);
+
+            imageViewTheBestLikeSong.setOnClickListener(new View.OnClickListener( ) {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, PlayMusicAcivity.class);
+                    intent.putExtra("song", songs.get(getPosition()));
+                    context.startActivity(intent);
+                }
+            });
+
         }
     }
 }

@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,6 +33,7 @@ import group4.musicproject.Adapter.AlbumAdapter;
 import group4.musicproject.Adapter.ListSongAdapter;
 import group4.musicproject.Adapter.TheBestLikeSongAdapter;
 import group4.musicproject.Model.Banner;
+import group4.musicproject.Model.Playlist;
 import group4.musicproject.Model.Song;
 import group4.musicproject.Service.APIService;
 import group4.musicproject.Service.DataService;
@@ -43,6 +45,7 @@ import group4.musicproject.R;
 public class ListSongActivity extends AppCompatActivity {
 
     Banner hotSong;
+    Playlist playlist;
     ArrayList<Song> songs;
     CoordinatorLayout corrdinatorLayout;
     AppBarLayout appBarLayout;
@@ -52,17 +55,34 @@ public class ListSongActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
     RecyclerView recyclerViewListSong;
     ListSongAdapter listSongAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_song);
-        DateIntent();
-        anhxa();
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder( ).permitAll( ).build( );
+        StrictMode.setThreadPolicy(policy);
+
+        anhxa( );
+        DateIntent( );
+
 //        init();
-        if (hotSong != null && !hotSong.getId().equals("")) {
-            setValueInView(hotSong.getTenBaiHat(), hotSong.getHinhAnh());
-            getDataHotSong(hotSong.getId().toString());
+        if (hotSong != null && !hotSong.getId( ).equals("")) {
+            setValueInView(hotSong.getTenBaiHat( ), hotSong.getHinhAnh( ));
+            getDataHotSong(hotSong.getId( ).toString( ));
         }
+
+        if (playlist != null && !playlist.getTen( ).equals("")) {
+            setValueInView(playlist.getTen( ), playlist.getHinhPlaylist( ));
+            getDataPlaylist(playlist.getId( ).toString( ));
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed( );
+        finish( );
     }
 
     private void anhxa() {
@@ -73,40 +93,66 @@ public class ListSongActivity extends AppCompatActivity {
         imageViewListSong = findViewById(R.id.imageViewListSong);
         floatingActionButton = findViewById(R.id.floatingActionButton);
         recyclerViewListSong = findViewById(R.id.recyclerViewListSong);
+
+        floatingActionButton.setEnabled(false);
     }
 
     private void setValueInView(String nameSong, String picture) {
 //        collapsingToolBar.setTitle(nameSong);
         try {
             URL url = new URL(picture);
-            Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
+            Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection( ).getInputStream( ));
+            BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources( ), bitmap);
             collapsingToolBar.setBackground(bitmapDrawable);
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            e.printStackTrace( );
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace( );
         }
         Picasso.with(this).load(picture).into(imageViewListSong);
     }
 
-    private void getDataHotSong(String idhotsong) {
-        DataService dataService = APIService.getService();
-        Call<List<Song>> callback = dataService.GetListSongByHotSong(idhotsong);
-        callback.enqueue(new Callback<List<Song>>() {
+    private void getDataPlaylist(String idPlaylist) {
+        DataService dataService = APIService.getService( );
+        Call<List<Song>> callback = dataService.GetListSongByPlaylist(idPlaylist);
+        callback.enqueue(new Callback<List<Song>>( ) {
             @Override
             public void onResponse(Call<List<Song>> call, Response<List<Song>> response) {
-                songs = (ArrayList<Song>) response.body();
+                songs = (ArrayList<Song>) response.body( );
                 listSongAdapter = new ListSongAdapter(ListSongActivity.this, songs);
                 LinearLayoutManager layoutManager = new LinearLayoutManager(ListSongActivity.this);
-                layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 recyclerViewListSong.setLayoutManager(layoutManager);
                 recyclerViewListSong.setAdapter(listSongAdapter);
+
+                eventClick( );
             }
 
             @Override
             public void onFailure(Call<List<Song>> call, Throwable t) {
-                Log.e("??????????????????????er", t.toString());
+                Log.e("??????????????????????er", t.toString( ));
+            }
+        });
+    }
+
+    private void getDataHotSong(String idhotsong) {
+        DataService dataService = APIService.getService( );
+        Call<List<Song>> callback = dataService.GetListSongByHotSong(idhotsong);
+        callback.enqueue(new Callback<List<Song>>( ) {
+            @Override
+            public void onResponse(Call<List<Song>> call, Response<List<Song>> response) {
+                songs = (ArrayList<Song>) response.body( );
+                listSongAdapter = new ListSongAdapter(ListSongActivity.this, songs);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(ListSongActivity.this);
+//                layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                recyclerViewListSong.setLayoutManager(layoutManager);
+                recyclerViewListSong.setAdapter(listSongAdapter);
+
+                eventClick( );
+            }
+
+            @Override
+            public void onFailure(Call<List<Song>> call, Throwable t) {
+                Log.e("??????????????????????er", t.toString( ));
             }
         });
     }
@@ -125,12 +171,30 @@ public class ListSongActivity extends AppCompatActivity {
 //    }
 
     private void DateIntent() {
-        Intent intent = getIntent();
+        Intent intent = getIntent( );
         if (intent != null) {
             if (intent.hasExtra("banner")) {
                 hotSong = (Banner) intent.getSerializableExtra("banner");
-                Toast.makeText(this, hotSong.getTenBaiHat(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, hotSong.getTenBaiHat( ), Toast.LENGTH_LONG).show( );
             }
+
+            if (intent.hasExtra("itemplaylist")) {
+                playlist = (Playlist) intent.getSerializableExtra("itemplaylist");
+//                Toast.makeText(this, playlist.getTen( ), Toast.LENGTH_LONG).show( );
+            }
+
         }
+    }
+
+    private void eventClick() {
+        floatingActionButton.setEnabled(true);
+        floatingActionButton.setOnClickListener(new View.OnClickListener( ) {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ListSongActivity.this, PlayMusicAcivity.class);
+                intent.putExtra("songlist", songs);
+                startActivity(intent);
+            }
+        });
     }
 }

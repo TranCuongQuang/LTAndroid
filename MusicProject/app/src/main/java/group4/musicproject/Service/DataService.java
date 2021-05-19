@@ -32,4 +32,8 @@ public interface DataService {
     @FormUrlEncoded
     @POST("ads/song")
     Call<List<Song>> GetListSongByHotSong(@Field("idquangcao") String idquangcao);
+
+    @FormUrlEncoded
+    @POST("playlist/song")
+    Call<List<Song>> GetListSongByPlaylist(@Field("idplaylist") String idplaylist);
 }
