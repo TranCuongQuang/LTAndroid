@@ -2,7 +2,6 @@ package group4.musicproject.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +44,7 @@ public class BannerAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, final int position) {
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View view = inflater.inflate(R.layout.line_banner, null);
+        View view = inflater.inflate(R.layout.item_banner, null);
         ImageView imageviewbackgroundbanner = view.findViewById(R.id.imageviewbackgroundbanner);
         ImageView imageviewbanner = view.findViewById(R.id.imageviewbanner);
         TextView txtTitleBanner = view.findViewById(R.id.txtTitleBanner);

@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="group4.musicproject">
+
     <uses-permission android:name="android.permission.INTERNET" />
+    <!--    android:theme="@style/Theme.AppCompat.Light.NoActionBar"-->
+    <!--    android:theme="@style/AppTheme"-->
     <application
-        android:networkSecurityConfig="@xml/network_security_config"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        <activity android:name=".Activity.ListCategoryActivity"></activity>
         <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,8 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.ListSongActivity"></activity>
-        <activity android:name=".Activity.PlayMusicAcivity"></activity>
+        <activity android:name=".Activity.ListSongActivity" />
+        <activity android:name=".Activity.PlayMusicAcivity" />
     </application>
 
 </manifest>

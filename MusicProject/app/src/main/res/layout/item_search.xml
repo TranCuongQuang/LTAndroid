@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:scaleType="fitXY"
+        android:layout_margin="3dp"
+        android:id="@+id/imageViewSongSeach"
+        android:layout_width="80dp"
+        android:layout_height="80dp">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/textViewSongSearch"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:maxWidth="250dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="7dp"
+        android:layout_toRightOf="@id/imageViewSongSeach"
+        android:text="Tên bài hát"
+        android:textSize="18dp"
+        android:textColor="#0a0a0a"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/textViewCaSiSearch"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:maxWidth="250dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="7dp"
+        android:layout_toRightOf="@id/imageViewSongSeach"
+        android:layout_below="@id/textViewSongSearch"
+        android:text="Ca sĩ"
+        android:textSize="18dp"
+        android:textColor="#6e6d6d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </TextView>
+
+    <ImageView
+        android:layout_marginRight="10dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/iconlove"
+        android:id="@+id/imageViewLikeSearch"
+        android:layout_height="30dp"
+        android:layout_width="30dp">
+
+    </ImageView>
+</RelativeLayout>

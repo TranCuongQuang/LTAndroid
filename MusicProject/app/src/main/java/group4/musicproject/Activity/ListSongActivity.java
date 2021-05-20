@@ -29,12 +29,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import group4.musicproject.Adapter.AlbumAdapter;
 import group4.musicproject.Adapter.ListSongAdapter;
-import group4.musicproject.Adapter.TheBestLikeSongAdapter;
 import group4.musicproject.Model.Banner;
 import group4.musicproject.Model.Playlist;
 import group4.musicproject.Model.Song;
+import group4.musicproject.Model.Topic;
 import group4.musicproject.Service.APIService;
 import group4.musicproject.Service.DataService;
 import retrofit2.Call;
@@ -46,6 +45,7 @@ public class ListSongActivity extends AppCompatActivity {
 
     Banner hotSong;
     Playlist playlist;
+    Topic topic;
     ArrayList<Song> songs;
     CoordinatorLayout corrdinatorLayout;
     AppBarLayout appBarLayout;
@@ -67,7 +67,7 @@ public class ListSongActivity extends AppCompatActivity {
         anhxa( );
         DateIntent( );
 
-//        init();
+        init();
         if (hotSong != null && !hotSong.getId( ).equals("")) {
             setValueInView(hotSong.getTenBaiHat( ), hotSong.getHinhAnh( ));
             getDataHotSong(hotSong.getId( ).toString( ));
@@ -77,7 +77,13 @@ public class ListSongActivity extends AppCompatActivity {
             setValueInView(playlist.getTen( ), playlist.getHinhPlaylist( ));
             getDataPlaylist(playlist.getId( ).toString( ));
         }
+
+        if (topic != null && !topic.getTenTheLoai( ).equals("")) {
+            setValueInView(topic.getTenTheLoai( ), topic.getHinhTheLoai( ));
+            getDataTopic(topic.getId( ).toString( ));
+        }
     }
+
 
     @Override
     public void onBackPressed() {
@@ -98,7 +104,7 @@ public class ListSongActivity extends AppCompatActivity {
     }
 
     private void setValueInView(String nameSong, String picture) {
-//        collapsingToolBar.setTitle(nameSong);
+        collapsingToolBar.setTitle(nameSong);
         try {
             URL url = new URL(picture);
             Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection( ).getInputStream( ));
@@ -157,18 +163,40 @@ public class ListSongActivity extends AppCompatActivity {
         });
     }
 
-//    private void init() {
-//        setSupportActionBar(toolBarListSong);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        toolBarListSong.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
-//        collapsingToolBar.setExpandedTitleColor(Color.WHITE);
-//        collapsingToolBar.setCollapsedTitleTextColor(Color.WHITE);
-//    }
+    private void getDataTopic(String idtheloai) {
+        DataService dataService = APIService.getService( );
+        Call<List<Song>> callback = dataService.GetListSongByTopic(idtheloai);
+        callback.enqueue(new Callback<List<Song>>( ) {
+            @Override
+            public void onResponse(Call<List<Song>> call, Response<List<Song>> response) {
+                songs = (ArrayList<Song>) response.body( );
+                listSongAdapter = new ListSongAdapter(ListSongActivity.this, songs);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(ListSongActivity.this);
+                recyclerViewListSong.setLayoutManager(layoutManager);
+                recyclerViewListSong.setAdapter(listSongAdapter);
+
+                eventClick( );
+            }
+
+            @Override
+            public void onFailure(Call<List<Song>> call, Throwable t) {
+                Log.e("??????????????????????er", t.toString( ));
+            }
+        });
+    }
+
+    private void init() {
+        setSupportActionBar(toolBarListSong);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolBarListSong.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        collapsingToolBar.setExpandedTitleColor(Color.WHITE);
+        collapsingToolBar.setCollapsedTitleTextColor(Color.WHITE);
+    }
 
     private void DateIntent() {
         Intent intent = getIntent( );
@@ -180,6 +208,11 @@ public class ListSongActivity extends AppCompatActivity {
 
             if (intent.hasExtra("itemplaylist")) {
                 playlist = (Playlist) intent.getSerializableExtra("itemplaylist");
+//                Toast.makeText(this, playlist.getTen( ), Toast.LENGTH_LONG).show( );
+            }
+
+            if (intent.hasExtra("topic")) {
+                topic = (Topic) intent.getSerializableExtra("topic");
 //                Toast.makeText(this, playlist.getTen( ), Toast.LENGTH_LONG).show( );
             }
 

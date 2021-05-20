@@ -4,8 +4,10 @@ import java.util.List;
 
 import group4.musicproject.Model.Album;
 import group4.musicproject.Model.Banner;
+import group4.musicproject.Model.Category;
 import group4.musicproject.Model.Playlist;
 import group4.musicproject.Model.Song;
+import group4.musicproject.Model.Topic;
 import group4.musicproject.Model.TopicCategory;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -36,4 +38,11 @@ public interface DataService {
     @FormUrlEncoded
     @POST("playlist/song")
     Call<List<Song>> GetListSongByPlaylist(@Field("idplaylist") String idplaylist);
+
+    @FormUrlEncoded
+    @POST("category/song")
+    Call<List<Song>> GetListSongByTopic(@Field("idtheloai") String idtheloai);
+
+    @GET("topics/all")
+    Call<List<Category>> GetCategoryAll();
 }

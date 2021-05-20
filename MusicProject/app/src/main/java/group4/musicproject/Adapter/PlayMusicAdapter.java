@@ -1,21 +1,16 @@
 package group4.musicproject.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import group4.musicproject.Activity.PlayMusicAcivity;
 import group4.musicproject.Model.Song;
 import group4.musicproject.R;
 
@@ -60,8 +55,6 @@ public class PlayMusicAdapter extends RecyclerView.Adapter<PlayMusicAdapter.View
             textViewPlayMusicIndex = itemView.findViewById(R.id.textViewPlayMusicIndex);
             textViewPlayMusicName = itemView.findViewById(R.id.textViewPlayMusicName);
             textViewPlayMusicCaSi = itemView.findViewById(R.id.textViewPlayMusicCaSi);
-
-
         }
     }
 }

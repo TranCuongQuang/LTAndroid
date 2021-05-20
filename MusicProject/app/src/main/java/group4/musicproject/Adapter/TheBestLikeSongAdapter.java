@@ -8,14 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import group4.musicproject.Activity.ListSongActivity;
 import group4.musicproject.Activity.PlayMusicAcivity;
 import group4.musicproject.Model.Song;
 import group4.musicproject.R;
@@ -24,6 +22,7 @@ public class TheBestLikeSongAdapter extends RecyclerView.Adapter<TheBestLikeSong
 
     Context context;
     ArrayList<Song> songs;
+    boolean active = false;
 
     public TheBestLikeSongAdapter(Context context, ArrayList<Song> songs) {
         this.context = context;
@@ -40,14 +39,14 @@ public class TheBestLikeSongAdapter extends RecyclerView.Adapter<TheBestLikeSong
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Song song = songs.get(position);
-        holder.textViewNameTheBestLikeSong.setText(song.getTenBaiHat());
-        holder.textViewArtistTheBestLikeSong.setText(song.getCaSi());
-        Picasso.with(context).load(song.getHinhBaiHat()).into(holder.imageViewTheBestLikeSong);
+        holder.textViewNameTheBestLikeSong.setText(song.getTenBaiHat( ));
+        holder.textViewArtistTheBestLikeSong.setText(song.getCaSi( ));
+        Picasso.with(context).load(song.getHinhBaiHat( )).into(holder.imageViewTheBestLikeSong);
     }
 
     @Override
     public int getItemCount() {
-        return songs.size();
+        return songs.size( );
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -63,15 +62,27 @@ public class TheBestLikeSongAdapter extends RecyclerView.Adapter<TheBestLikeSong
             imageViewTheBestLikeSong = itemView.findViewById(R.id.imageViewTheBestLikeSong);
             imageViewLike = itemView.findViewById(R.id.imageViewLike);
 
-            imageViewTheBestLikeSong.setOnClickListener(new View.OnClickListener( ) {
+            itemView.setOnClickListener(new View.OnClickListener( ) {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, PlayMusicAcivity.class);
-                    intent.putExtra("song", songs.get(getPosition()));
+                    intent.putExtra("song", songs.get(getPosition( )));
                     context.startActivity(intent);
                 }
             });
 
+            imageViewLike.setOnClickListener(new View.OnClickListener( ) {
+                @Override
+                public void onClick(View v) {
+                    if (active == false) {
+                        imageViewLike.setImageResource(R.drawable.iconloved);
+                        active = true;
+                    } else {
+                        imageViewLike.setImageResource(R.drawable.iconlove);
+                        active = false;
+                    }
+                }
+            });
         }
     }
 }

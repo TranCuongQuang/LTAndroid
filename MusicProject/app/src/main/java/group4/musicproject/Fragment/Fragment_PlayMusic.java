@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,12 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-
 import group4.musicproject.Activity.PlayMusicAcivity;
-import group4.musicproject.Adapter.AlbumAdapter;
-import group4.musicproject.Adapter.PlayMusicAdapter;
-import group4.musicproject.Model.Album;
+import group4.musicproject.Adapter.PlayMusicAdapter;;
 import group4.musicproject.R;
 
 public class Fragment_PlayMusic extends Fragment {
@@ -39,9 +34,9 @@ public class Fragment_PlayMusic extends Fragment {
 
     private void anhxa() {
         recylerViewPlaymusic = view.findViewById(R.id.recylerViewPlaymusic);
-        if (PlayMusicAcivity.songs.size() > 0) {
+        if (PlayMusicAcivity.songs.size( ) > 0) {
             playMusicAdapter = new PlayMusicAdapter(getActivity( ), PlayMusicAcivity.songs);
-            recylerViewPlaymusic.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recylerViewPlaymusic.setLayoutManager(new LinearLayoutManager(getActivity( )));
             recylerViewPlaymusic.setAdapter(playMusicAdapter);
         }
     }
