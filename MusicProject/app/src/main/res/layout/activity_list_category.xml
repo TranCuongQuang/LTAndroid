@@ -7,6 +7,11 @@
     android:orientation="vertical"
     tools:context=".Activity.ListCategoryActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBarListCategory"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"></androidx.appcompat.widget.Toolbar>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewListCategory"
         android:layout_width="match_parent"

@@ -45,4 +45,8 @@ public interface DataService {
 
     @GET("topics/all")
     Call<List<Category>> GetCategoryAll();
+
+    @FormUrlEncoded
+    @POST("songs/search")
+    Call<List<Song>> GetSongSearch(@Field("tukhoa") String tukhoa);
 }

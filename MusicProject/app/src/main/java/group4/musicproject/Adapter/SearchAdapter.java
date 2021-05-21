@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import group4.musicproject.Activity.PlayMusicAcivity;
 import group4.musicproject.Model.Song;
 import group4.musicproject.R;
 
@@ -65,7 +66,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             itemView.setOnClickListener(new View.OnClickListener( ) {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, PlayMusicAdapter.class);
+                    Intent intent = new Intent(context, PlayMusicAcivity.class);
                     intent.putExtra("song", songs.get(getPosition( )));
                     context.startActivity(intent);
                 }

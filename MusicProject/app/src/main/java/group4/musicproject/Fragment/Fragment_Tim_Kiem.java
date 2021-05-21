@@ -16,16 +16,29 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import group4.musicproject.Adapter.SearchAdapter;
+import group4.musicproject.Adapter.TheBestLikeSongAdapter;
+import group4.musicproject.Model.Song;
 import group4.musicproject.R;
+import group4.musicproject.Service.APIService;
+import group4.musicproject.Service.DataService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Fragment_Tim_Kiem extends Fragment {
     View view;
     Toolbar toolBarSearch;
     RecyclerView recyclerViewSearch;
     TextView textViewSearch;
+
+    ArrayList<Song> songs;
     SearchAdapter searchAdapter;
 
     @Nullable
@@ -56,7 +69,7 @@ public class Fragment_Tim_Kiem extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener( ) {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.e("??????????????", query);
+                GetDataSearch(query);
                 return true;
             }
 
@@ -66,5 +79,32 @@ public class Fragment_Tim_Kiem extends Fragment {
             }
         });
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void GetDataSearch(String keySearch) {
+        DataService dataService = APIService.getService();
+        Call<List<Song>> callback = dataService.GetSongSearch(keySearch);
+        callback.enqueue(new Callback<List<Song>>() {
+            @Override
+            public void onResponse(Call<List<Song>> call, Response<List<Song>> response) {
+                songs = (ArrayList<Song>) response.body();
+                if(songs.size()>0) {
+                    searchAdapter = new SearchAdapter(getContext( ), songs);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext( ));
+                    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    recyclerViewSearch.setLayoutManager(layoutManager);
+                    recyclerViewSearch.setAdapter(searchAdapter);
+                    textViewSearch.setVisibility(View.GONE);
+                    recyclerViewSearch.setVisibility(View.VISIBLE);
+                }else {
+                    textViewSearch.setVisibility(View.VISIBLE);
+                    recyclerViewSearch.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Song>> call, Throwable t) {
+            }
+        });
     }
 }
