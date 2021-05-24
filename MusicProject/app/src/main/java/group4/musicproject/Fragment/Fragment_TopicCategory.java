@@ -1,5 +1,6 @@
 package group4.musicproject.Fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -20,6 +21,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import group4.musicproject.Activity.ListCategoryActivity;
+import group4.musicproject.Activity.ListSongActivity;
 import group4.musicproject.Model.Category;
 import group4.musicproject.Model.Topic;
 import group4.musicproject.Model.TopicCategory;
@@ -50,6 +53,14 @@ public class Fragment_TopicCategory extends Fragment {
         textViewTitle = view.findViewById(R.id.textViewTitle);
         textViewViewMore = view.findViewById(R.id.textViewViewMore);
         horizontalScrollView = view.findViewById(R.id.horizontalScrollView);
+
+        textViewViewMore.setOnClickListener(new View.OnClickListener( ) {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ListCategoryActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void GetData() {
@@ -95,7 +106,7 @@ public class Fragment_TopicCategory extends Fragment {
                 for (int j = 0; j < arrCate.size(); j++) {
                     CardView cardView = new CardView(getActivity());
                     cardView.setRadius(10);
-                    ImageView imageView = new ImageView(getActivity());
+                    final ImageView imageView = new ImageView(getActivity());
                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                     if (arrCate.get(j).getId() != null) {
                         Picasso.with(getActivity()).load(arrCate.get(j).getHinhChuDe()).into(imageView);
@@ -103,6 +114,16 @@ public class Fragment_TopicCategory extends Fragment {
                     cardView.setLayoutParams(layout);
                     cardView.addView(imageView);
                     linearLayout.addView(cardView);
+
+                    final int finalJ = j;
+                    imageView.setOnClickListener(new View.OnClickListener( ) {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getActivity(), ListSongActivity.class);
+                            intent.putExtra("topic", arrTopic.get(finalJ));
+                            startActivity(intent);
+                        }
+                    });
                 }
                 horizontalScrollView.addView(linearLayout);
             }
