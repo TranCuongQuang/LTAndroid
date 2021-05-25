@@ -7,7 +7,6 @@ import group4.musicproject.Model.Banner;
 import group4.musicproject.Model.Category;
 import group4.musicproject.Model.Playlist;
 import group4.musicproject.Model.Song;
-import group4.musicproject.Model.Topic;
 import group4.musicproject.Model.TopicCategory;
 import retrofit2.Call;
 import retrofit2.http.Field;

@@ -50,15 +50,6 @@ public class ListCategoryAdapter extends  RecyclerView.Adapter<ListCategoryAdapt
         public ViewHolder(View itemView) {
             super(itemView);
             imageViewListCategory = itemView.findViewById(R.id.imageViewListCategory);
-
-//            imageViewListCategory.setOnClickListener(new View.OnClickListener( ) {
-//                @Override
-//                public void onClick(View v) {
-////                    Intent intent = new Intent(context, PlayMusicAcivity.class);
-////                    intent.putExtra("song", songs.get(getPosition( )));
-////                    context.startActivity(intent);
-//                }
-//            });
         }
     }
 }
