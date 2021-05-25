@@ -1,56 +1,89 @@
 package com.example.exerciseproject;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements View.OnClickListener {
+    TextView txtMsg;
+    Intent intentCallService4, intentCallService5, intentCallService6;
+    BroadcastReceiver receiver;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        txtMsg = (TextView) findViewById(R.id.txtMsg);
+        findViewById(R.id.btnStart4).setOnClickListener(this);
+        findViewById(R.id.btnStop4).setOnClickListener(this);
+        findViewById(R.id.btnStart5).setOnClickListener(this);
+        findViewById(R.id.btnStop5).setOnClickListener(this);
+        findViewById(R.id.btnStart6).setOnClickListener(this);
+        findViewById(R.id.btnStop6).setOnClickListener(this);
+        Log.e("MAIN", "Main started");
+// get ready to invoke execution of background services
+        intentCallService4 = new Intent(this, MyService4.class);
+        intentCallService5 = new Intent(this, MyService5Async.class);
+        intentCallService6 = new Intent(this, MyService6.class);
+// register local listener & define triggering filter
+        IntentFilter filter5 = new IntentFilter("matos.action.GOSERVICE5");
+        IntentFilter filter6 = new IntentFilter("matos.action.GPSFIX");
+        receiver = new MyEmbeddedBroadcastReceiver();
+        registerReceiver(receiver, filter5);
+        registerReceiver(receiver, filter6);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main9);
-        final GridView grid = (GridView) findViewById(R.id.grid);
-        List<Person> personList = getListData();
-        CustomGridAdapter adapter = new CustomGridAdapter(this, R.layout.custom_row9, personList);
-        grid.setAdapter(adapter);
+    public void onClick(View v) {
+        if (v.getId() == R.id.btnStart4) {
+            Log.e("MAIN", "onClick: starting service4");
+            startService(intentCallService4);
+        }
+        else if (v.getId() == R.id.btnStop4) {
+            Log.e("MAIN", "onClick: stopping service4");
+            stopService(intentCallService4);
+        }
+        else if (v.getId() == R.id.btnStart5) {
+            Log.e("MAIN", "onClick: starting service5");
+            startService(intentCallService5);
+        }
+        else if (v.getId() == R.id.btnStop5) {
+            Log.e("MAIN", "onClick: stopping service5");
+            stopService(intentCallService5);
+        }
+        else if (v.getId() == R.id.btnStart6) {
+            Log.e("MAIN", "onClick: starting service6");
+            startService(intentCallService6);
+        }
+        else if (v.getId() == R.id.btnStop6) {
+            Log.e("MAIN", "onClick: stopping service6");
+            stopService(intentCallService6);
+        }
+    }// onClick
 
-        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> container, View v, int position, long id) {
-                Object o = grid.getItemAtPosition(position);
-                Person person = (Person) o;
-//                Toast.makeText(MainActivity.this, "Selected :" + " " + person.getName(), Toast.LENGTH_SHORT).show();
-
-                Intent callMainActivityChannel = new Intent(MainActivity.this, MainActivityChannel.class);
-                Bundle myData = new Bundle();
-                myData.putString("Name",  person.getName().toString());
-                myData.putString("Logo", person.getAvatar().toString());
-                callMainActivityChannel.putExtras(myData);
-                startActivity(callMainActivityChannel);
+    public class MyEmbeddedBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.e("MAIN>>", "ACTION: " + intent.getAction());
+            if (intent.getAction().equals("matos.action.GOSERVICE5")) {
+                String service5Data = intent.getStringExtra("MyService5DataItem");
+                Log.e("MAIN>>", "Data received from Service5: " + service5Data);
+                txtMsg.append("\nService5Data: > " + service5Data);
             }
-        });
-
-    }
-
-    private List<Person> getListData() {
-        List<Person> list = new ArrayList<Person>();
-
-        Person p1 = new Person("VnExpress","vnexpress");
-        Person p2 = new Person("24h","bao24h");
-        Person p3 = new Person("ThanhNien","thanhnien");
-
-        list.add(p1);
-        list.add(p2);
-        list.add(p3);
-
-        return list;
-    }
+            else if (intent.getAction().equals("matos.action.GPSFIX")) {
+                double latitude = intent.getDoubleExtra("latitude", -1);
+                double longitude = intent.getDoubleExtra("longitude", -1);
+                String provider = intent.getStringExtra("provider");
+                String service6Data = provider + " lat: " + Double.toString(latitude)
+                        + " lon: " + Double.toString(longitude);
+                Log.e("MAIN>>", "Data received from Service6:" + service6Data);
+                txtMsg.append("\nService6Data: > "+ service6Data);
+            }
+        }//onReceive
+    }// MyEmbeddedBroadcastReceiver
 }
