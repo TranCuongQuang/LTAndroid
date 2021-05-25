@@ -49,4 +49,8 @@ public interface DataService {
     @FormUrlEncoded
     @POST("songs/search")
     Call<List<Song>> GetSongSearch(@Field("tukhoa") String tukhoa);
+
+    @FormUrlEncoded
+    @POST("songs/like")
+    Call<String> UpdateHotSong(@Field("luotthich") String luotthich,@Field("idbaihat") String idbaihat);
 }

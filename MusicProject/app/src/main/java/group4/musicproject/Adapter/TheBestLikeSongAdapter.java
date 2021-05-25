@@ -2,21 +2,32 @@ package group4.musicproject.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import group4.musicproject.Activity.ListSongActivity;
 import group4.musicproject.Activity.PlayMusicAcivity;
+import group4.musicproject.Model.Playlist;
 import group4.musicproject.Model.Song;
 import group4.musicproject.R;
+import group4.musicproject.Service.APIService;
+import group4.musicproject.Service.DataService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TheBestLikeSongAdapter extends RecyclerView.Adapter<TheBestLikeSongAdapter.ViewHolder> {
 
@@ -81,6 +92,26 @@ public class TheBestLikeSongAdapter extends RecyclerView.Adapter<TheBestLikeSong
                         imageViewLike.setImageResource(R.drawable.iconlove);
                         active = false;
                     }
+
+//                    DataService dataService = APIService.getService( );
+//                    Call<String> callback = dataService.UpdateHotSong("1",songs.get(getPosition()).getId().toString() );
+//                    callback.enqueue(new Callback<String>( ) {
+//                        @Override
+//                        public void onResponse(Call<String> call, Response<String> response) {
+//                            String kq = response.body();
+//
+//                            if(kq.equals("Success")){
+//                                Toast.makeText(context,"Đã thích",Toast.LENGTH_SHORT).show();
+//                            }else {
+//                                Toast.makeText(context,"Lỗi",Toast.LENGTH_SHORT).show();
+//                            }
+//                            Log.e("?????????????????",kq);
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<String> call, Throwable t) {
+//                        }
+//                    });
                 }
             });
         }

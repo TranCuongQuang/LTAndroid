@@ -27,10 +27,6 @@ android {
             jcenter()
         }
     }
-
-//    dataBinding {
-//        enabled = true
-//    }
 }
 
 dependencies {
