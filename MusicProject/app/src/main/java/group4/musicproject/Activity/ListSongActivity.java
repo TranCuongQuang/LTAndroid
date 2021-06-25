@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import group4.musicproject.Adapter.ListSongAdapter;
+import group4.musicproject.Model.Album;
 import group4.musicproject.Model.Banner;
 import group4.musicproject.Model.Playlist;
 import group4.musicproject.Model.Song;
@@ -46,6 +47,7 @@ public class ListSongActivity extends AppCompatActivity {
     Banner hotSong;
     Playlist playlist;
     Topic topic;
+    Album album;
     ArrayList<Song> songs;
     CoordinatorLayout corrdinatorLayout;
     AppBarLayout appBarLayout;
@@ -82,8 +84,12 @@ public class ListSongActivity extends AppCompatActivity {
             setValueInView(topic.getTenTheLoai( ), topic.getHinhTheLoai( ));
             getDataTopic(topic.getId( ).toString( ));
         }
-    }
 
+        if (album != null && !album.getTenAlbum( ).equals("")) {
+            setValueInView(album.getTenAlbum( ), album.getHinhAlbum( ));
+            getDataAblum(album.getId( ).toString( ));
+        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -185,6 +191,28 @@ public class ListSongActivity extends AppCompatActivity {
         });
     }
 
+    private void getDataAblum(String idalbum) {
+        DataService dataService = APIService.getService( );
+        Call<List<Song>> callback = dataService.GetListSongByAlbum(idalbum);
+        callback.enqueue(new Callback<List<Song>>( ) {
+            @Override
+            public void onResponse(Call<List<Song>> call, Response<List<Song>> response) {
+                songs = (ArrayList<Song>) response.body( );
+                listSongAdapter = new ListSongAdapter(ListSongActivity.this, songs);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(ListSongActivity.this);
+                recyclerViewListSong.setLayoutManager(layoutManager);
+                recyclerViewListSong.setAdapter(listSongAdapter);
+
+//                eventClick( );
+            }
+
+            @Override
+            public void onFailure(Call<List<Song>> call, Throwable t) {
+                Log.e("??????????????????????er", t.toString( ));
+            }
+        });
+    }
+
     private void init() {
         setSupportActionBar(toolBarListSong);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -216,6 +244,10 @@ public class ListSongActivity extends AppCompatActivity {
 //                Toast.makeText(this, playlist.getTen( ), Toast.LENGTH_LONG).show( );
             }
 
+            if (intent.hasExtra("album")) {
+                album = (Album) intent.getSerializableExtra("album");
+//                Toast.makeText(this, playlist.getTen( ), Toast.LENGTH_LONG).show( );
+            }
         }
     }
 

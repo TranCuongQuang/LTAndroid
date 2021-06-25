@@ -1,5 +1,6 @@
 package group4.musicproject.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import group4.musicproject.Activity.AlbumActivity;
+import group4.musicproject.Activity.ListSongActivity;
 import group4.musicproject.Adapter.AlbumAdapter;
 import group4.musicproject.Model.Album;
 import group4.musicproject.R;
@@ -45,6 +48,15 @@ public class Fragment_Album extends Fragment {
         textViewTitleAlbum = view.findViewById(R.id.textViewTitleAlbum);
         textViewViewMoreAlbum = view.findViewById(R.id.textViewViewMoreAlbum);
         recylerViewAlbum = view.findViewById(R.id.recylerViewAlbum);
+
+        textViewViewMoreAlbum.setOnClickListener(new View.OnClickListener( ) {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AlbumActivity.class);
+//                intent.putExtra("topic", topics.get(getPosition( )));
+                startActivity(intent);
+            }
+        });
     }
 
     private void GetData() {

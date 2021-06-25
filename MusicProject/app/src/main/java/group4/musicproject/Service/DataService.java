@@ -57,4 +57,11 @@ public interface DataService {
     @FormUrlEncoded
     @POST("topics/category")
     Call<List<Topic>> GetTopicCategory(@Field("id") String id);
+
+    @GET("albums")
+    Call<List<Album>> GetAlbums();
+
+    @FormUrlEncoded
+    @POST("songs/album")
+    Call<List<Song>> GetListSongByAlbum(@Field("idalbum") String idalbum);
 }

@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".Activity.AlbumActivity"></activity>
         <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +23,7 @@
         </activity>
         <activity android:name=".Activity.ListSongActivity" />
         <activity android:name=".Activity.PlayMusicAcivity" />
-        <activity android:name=".Activity.TopicCategoryActivity"/>
+        <activity android:name=".Activity.TopicCategoryActivity" />
         <activity android:name=".Activity.ListCategoryActivity" />
     </application>
 

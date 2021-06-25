@@ -8,58 +8,57 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import group4.musicproject.Activity.AlbumActivity;
 import group4.musicproject.Activity.ListSongActivity;
 import group4.musicproject.Model.Album;
+import group4.musicproject.Model.Topic;
 import group4.musicproject.R;
 
-public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
-
+public class AlbumAllAdapter extends RecyclerView.Adapter<AlbumAllAdapter.ViewHolder> {
     Context context;
     ArrayList<Album> albums;
 
-    public AlbumAdapter(Context context, ArrayList<Album> albums) {
+    public AlbumAllAdapter(Context context, ArrayList<Album> albums) {
         this.context = context;
         this.albums = albums;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.item_album, parent, false);
+        View view = inflater.inflate(R.layout.item_album_all, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Album album = albums.get(position);
-        holder.txtArtistAlbum.setText(album.getTenCaSiAlbum());
-        holder.txtNameAlbum.setText(album.getTenAlbum());
-        Picasso.with(context).load(album.getHinhAlbum()).into(holder.imgPictureAlbum);
-
+        Picasso.with(context).load(album.getHinhAlbum( )).into(holder.imageViewAlbums);
+        holder.textViewAlbums.setText(album.getTenAlbum( ));
     }
 
     @Override
     public int getItemCount() {
-        return albums.size();
+        return albums.size( );
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imgPictureAlbum;
-        TextView txtNameAlbum, txtArtistAlbum;
+        ImageView imageViewAlbums;
+        TextView textViewAlbums;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            imgPictureAlbum = itemView.findViewById(R.id.imageViewAlbum);
-            txtNameAlbum = itemView.findViewById(R.id.textViewTitleAlbum);
-            txtArtistAlbum = itemView.findViewById(R.id.textViewArtist);
-
-            imgPictureAlbum.setOnClickListener(new View.OnClickListener( ) {
+            imageViewAlbums = itemView.findViewById(R.id.imageViewAlbums);
+            textViewAlbums = itemView.findViewById(R.id.textViewAlbums);
+            imageViewAlbums.setOnClickListener(new View.OnClickListener( ) {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, ListSongActivity.class);
