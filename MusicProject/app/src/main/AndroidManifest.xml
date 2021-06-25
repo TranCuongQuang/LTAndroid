@@ -4,8 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <!--    android:theme="@style/Theme.AppCompat.Light.NoActionBar"-->
-    <!--    android:theme="@style/AppTheme"-->
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
@@ -14,8 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-        <activity android:name=".Activity.ListCategoryActivity"></activity>
         <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,6 +22,8 @@
         </activity>
         <activity android:name=".Activity.ListSongActivity" />
         <activity android:name=".Activity.PlayMusicAcivity" />
+        <activity android:name=".Activity.TopicCategoryActivity"/>
+        <activity android:name=".Activity.ListCategoryActivity" />
     </application>
 
 </manifest>

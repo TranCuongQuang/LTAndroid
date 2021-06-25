@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,50 +15,54 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import group4.musicproject.Activity.TopicCategoryActivity;
+import group4.musicproject.Activity.ListSongActivity;
 import group4.musicproject.Model.Category;
+import group4.musicproject.Model.Topic;
 import group4.musicproject.R;
 
-public class ListCategoryAdapter extends  RecyclerView.Adapter<ListCategoryAdapter.ViewHolder> {
 
+public class TopicCategoryAdapter extends RecyclerView.Adapter<TopicCategoryAdapter.ViewHolder> {
     Context context;
-    ArrayList<Category> categories;
+    ArrayList<Topic> topics;
 
-    public ListCategoryAdapter(Context context, ArrayList<Category> categories) {
+    public TopicCategoryAdapter(Context context, ArrayList<Topic> categories) {
         this.context = context;
-        this.categories = categories;
+        this.topics = categories;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.item_listcategory, parent, false);
+        View view = inflater.inflate(R.layout.item_topiccategory, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Category category = categories.get(position);
-        Picasso.with(context).load(category.getHinhChuDe()).into(holder.imageViewListCategory);
+        Topic topic = topics.get(position);
+        Picasso.with(context).load(topic.getHinhTheLoai( )).into(holder.imageViewTopicCategory);
+        holder.textViewTopicCategory.setText(topic.getTenTheLoai( ));
     }
 
     @Override
     public int getItemCount() {
-        return categories.size();
+        return topics.size( );
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageViewListCategory;
+        ImageView imageViewTopicCategory;
+        TextView textViewTopicCategory;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            imageViewListCategory = itemView.findViewById(R.id.imageViewListCategory);
-            imageViewListCategory.setOnClickListener(new View.OnClickListener( ) {
+            imageViewTopicCategory = itemView.findViewById(R.id.imageViewTopicCategory);
+            textViewTopicCategory = itemView.findViewById(R.id.textViewTopicCategory);
+            imageViewTopicCategory.setOnClickListener(new View.OnClickListener( ) {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, TopicCategoryActivity.class);
-                    intent.putExtra("chude", categories.get(getPosition()));
+                    Intent intent = new Intent(context, ListSongActivity.class);
+                    intent.putExtra("topic", topics.get(getPosition( )));
                     context.startActivity(intent);
                 }
             });

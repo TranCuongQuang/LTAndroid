@@ -28,6 +28,7 @@ public class ListCategoryActivity extends AppCompatActivity {
     ArrayList<Category> categories;
     ListCategoryAdapter listCategoryAdapter;
     Toolbar toolBarListCategory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,12 +43,12 @@ public class ListCategoryActivity extends AppCompatActivity {
         toolBarListCategory = findViewById(R.id.toolBarListCategory);
 
         setSupportActionBar(toolBarListCategory);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Tất cả chủ đề");
-        toolBarListCategory.setNavigationOnClickListener(new View.OnClickListener() {
+        getSupportActionBar( ).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar( ).setTitle("Tất cả chủ đề");
+        toolBarListCategory.setNavigationOnClickListener(new View.OnClickListener( ) {
             @Override
             public void onClick(View v) {
-                finish();
+                finish( );
             }
         });
 //        toolBarListCategory.setTitleTextColor(Color.WHITE);
